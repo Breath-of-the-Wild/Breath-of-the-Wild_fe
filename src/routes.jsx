@@ -1,7 +1,7 @@
 import { Home, Profile, SignIn, SignUp } from "@/pages";
 import Recommend from "./pages/recommend";
 import Map from "./pages/map";
-import Shopping from "./pages/shopping";
+import Festival from "./pages/festival";
 import Assignment from "./pages/assignment";
 import Help from "./pages/help";
 
@@ -24,9 +24,9 @@ export const routes = [
   },
 
   {
-    name: "쇼핑",
-    path: "/shopping",
-    element: <Shopping />,
+    name: "축제정보",
+    path: "/festival",
+    element: <Festival />,
   },
 
   {

@@ -3,7 +3,7 @@ import {
     Typography,
   } from "@material-tailwind/react";
 
-const ShoppingTop = () => {
+const FestivalTop = () => {
     return (
        
                  <div className="ml-auto mr-auto w-full px-4 text-center background-image" >
@@ -17,12 +17,12 @@ const ShoppingTop = () => {
                 color="white"
                 className="mb-6 font-White"
               >
-                            쇼핑 페이지
+                            축제 정보 
               </Typography>
   
               <Typography variant="lead" color="white" className="opacity-80">
-
               </Typography>
+
             </div>
           </div>
         </div>
@@ -32,4 +32,4 @@ const ShoppingTop = () => {
     );
 };
 
-export default ShoppingTop;
+export default FestivalTop;
