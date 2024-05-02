@@ -127,15 +127,29 @@ const BlogPosts = () => {
     }, [pageNo]);
 
     // 검색 결과를 필터링합니다.
-    const handleSearch = () => {
-        if (searchQuery) {
-            const lowerCaseQuery = searchQuery.toLowerCase();
-            const filteredPosts = allPosts.filter(post => post.addr1.toLowerCase().includes(lowerCaseQuery));
-            setPosts(filteredPosts);
-        } else {
-            setPosts(allPosts);
-        }
-    };
+   // handleSearch 함수 수정
+const handleSearch = async () => {
+  // 전체 데이터를 요청하여 가져옵니다.
+  const apiUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?numOfRows=1000&pageNo=1&MobileOS=win&MobileApp=win&_type=json&arrange=Q&eventStartDate=20240401&serviceKey=tkpuYMyOJPiESQhzLecE1EshwjeUNeXfOJY7y8Rku7L2kh5E%2FbSH7NC7CZ1vvthRi72%2FidxEOUL%2FULnq0WWkHw%3D%3D`;
+  
+  try {
+      const response = await axios.get(apiUrl);
+      const allData = response.data.response.body.items.item;
+
+      // 검색 쿼리가 있을 때 전체 데이터에서 필터링합니다.
+      if (searchQuery) {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          const filteredPosts = allData.filter(post => post.addr1.toLowerCase().includes(lowerCaseQuery));
+          setPosts(filteredPosts);
+      } else {
+          // 검색 쿼리가 없는 경우 전체 데이터를 표시합니다.
+          setPosts(allData);
+      }
+  } catch (error) {
+      console.error('검색 중 오류가 발생했습니다:', error);
+  }
+};
+
 
     // "더보기" 버튼 클릭 시 페이지 번호를 증가시켜 더 많은 포스트를 불러옵니다.
     const handleLoadMore = () => {
