@@ -2,21 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-// Post 컴포넌트는 그대로 유지합니다.
+// Post 컴포넌트: 각 축제 포스트를 나타내는 컴포넌트입니다.
 const Post = ({ post }) => (
     <article className="bg-white p-6 mb-6 shadow transition duration-300 group transform hover:-translate-y-2 hover:shadow-2xl rounded-2xl cursor-pointer border">
+        {/* 축제 세부 정보를 보여주는 링크 */}
         <Link to={post.slug} className="absolute top-0 right-0 left-0 bottom-0 opacity-0" />
+        {/* 축제 이미지 */}
         <div className="relative mb-4 rounded-2xl">
             <img
                 alt={post.title}
                 className="max-h-80 rounded-2xl w-full object-cover transition-transform duration-300 transform group-hover:scale-105"
                 src={post.firstimage}
             />
+            {/* 이미지 위의 축제 보러가기 버튼 */}
             <Link
                 to={post.slug}
-                className="flex justify-center items-center bg-red-700 bg-opacity-80 absolute top-0 left-0 w-full h-full text-white rounded-2xl opacity-0 transition-all duration-300 group-hover:opacity-100"
+                className="flex justify-center items-center bg-blue-700 bg-opacity-70 absolute top-0 left-0 w-full h-full text-white text-3xl rounded-2xl opacity-0 transition-all duration-300 group-hover:opacity-100"
             >
-                Read article
+                축제 보러가기
+                {/* 화살표 아이콘 */}
                 <svg
                     className="ml-2 w-6 h-6"
                     fill="none"
@@ -33,17 +37,21 @@ const Post = ({ post }) => (
                 </svg>
             </Link>
         </div>
+        {/* 축제 제목 */}
         <h3 className="font-medium text-xl leading-8">
             <Link className="block relative group-hover:text-red-700 transition-colors duration-200" to={post.slug}>
                 {post.title}
             </Link>
         </h3>
+        {/* 축제 세부 정보 */}
         <div className="flex justify-between items-center pb-4">
             <div className="flex items-center">
+                {/* 축제 이미지 */}
                 <img alt={post.title} className="h-12 w-12 rounded-full object-cover" src={post.firstimage} />
                 <div className="ml-3">
                     <p className="text-sm font-semibold">축제기간</p>
                     <p className="text-sm text-gray-500 flex">
+                        {/* 시계 아이콘 */}
                         <svg
                             className="ml-1 w-4 h-4"
                             fill="none"
@@ -61,7 +69,9 @@ const Post = ({ post }) => (
                     </p>
                 </div>
             </div>
+            {/* 축제 주소 */}
             <div className="flex justify-end text-sm text-gray-500">
+                {/* 지도 아이콘 */}
                 <svg
                     className="ml-1 w-4 h-4"
                     fill="currentColor"
@@ -78,49 +88,84 @@ const Post = ({ post }) => (
 );
 
 const BlogPosts = () => {
+    // 상태 관리: 포스트, 전체 포스트, 페이지 번호, 로딩 상태, 검색 쿼리
     const [posts, setPosts] = useState([]);
+    const [allPosts, setAllPosts] = useState([]);
     const [pageNo, setPageNo] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
+    // 축제 게시물을 가져오는 함수
     const fetchPosts = async () => {
-        setLoading(true);
-
+        setLoading(true); // 로딩 상태 시작
         const apiUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?numOfRows=12&pageNo=${pageNo}&MobileOS=win&MobileApp=win&_type=json&arrange=Q&eventStartDate=20240401&serviceKey=tkpuYMyOJPiESQhzLecE1EshwjeUNeXfOJY7y8Rku7L2kh5E%2FbSH7NC7CZ1vvthRi72%2FidxEOUL%2FULnq0WWkHw%3D%3D`;
 
         try {
-            const response = await axios.get(apiUrl);
+            const response = await axios.get(apiUrl); // API 호출
             const newPosts = response.data.response.body.items.item;
             
+            // 첫 페이지인 경우 전체 포스트를 설정하고 초기화
             if (pageNo === 1) {
-                // 페이지 번호가 1일 때는 기존 posts 상태를 초기화합니다.
                 setPosts(newPosts);
+                setAllPosts(newPosts);
             } else {
-                // 중복된 데이터를 제거하고 새로운 데이터만 추가합니다.
-                const uniqueNewPosts = newPosts.filter(post => !posts.some(existingPost => existingPost.contentid === post.contentid));
+                // 중복된 포스트를 제외하고 추가
+                const uniqueNewPosts = newPosts.filter(post => !allPosts.some(existingPost => existingPost.contentid === post.contentid));
                 setPosts(prevPosts => [...prevPosts, ...uniqueNewPosts]);
+                setAllPosts(prevAllPosts => [...prevAllPosts, ...uniqueNewPosts]);
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
         } finally {
-            setLoading(false);
+            setLoading(false); // 로딩 상태 종료
         }
     };
 
+    // 페이지 번호 변경에 따라 포스트를 가져옵니다.
     useEffect(() => {
         fetchPosts();
-    }, [pageNo]); // pageNo가 변경될 때마다 API 호출
+    }, [pageNo]);
 
-    const handleLoadMore = () => {
-        if (!loading) {
-            setPageNo(prevPageNo => prevPageNo + 1);
+    // 검색 결과를 필터링합니다.
+    const handleSearch = () => {
+        if (searchQuery) {
+            const lowerCaseQuery = searchQuery.toLowerCase();
+            const filteredPosts = allPosts.filter(post => post.addr1.toLowerCase().includes(lowerCaseQuery));
+            setPosts(filteredPosts);
+        } else {
+            setPosts(allPosts);
         }
+    };
+
+    // "더보기" 버튼 클릭 시 페이지 번호를 증가시켜 더 많은 포스트를 불러옵니다.
+    const handleLoadMore = () => {
+        setPageNo((prevPageNo) => prevPageNo + 1);
     };
 
     return (
         <div className="relative pt-2 lg:pt-2 min-h-screen">
+            {/* 배경 이미지 */}
             <div className="bg-cover w-full flex justify-center items-center" style={{ backgroundImage: 'url(\'/images/mybackground.jpeg\')' }}>
                 <div className="w-full bg-white p-5 bg-opacity-40 backdrop-filter backdrop-blur-lg">
                     <div className="w-12/12 mx-auto rounded-2xl bg-white p-5 bg-opacity-40 backdrop-filter backdrop-blur-lg">
+                        {/* 검색 바 */}
+                        <div className="flex mb-4">
+                            <input
+                                type="text"
+                                placeholder="주소를 기준으로 검색하세요..."
+                                className="p-2 border rounded flex-grow"
+                                value={searchQuery}
+                                onChange={e => setSearchQuery(e.target.value)}
+                            />
+                            {/* 검색 버튼 */}
+                            <button
+                                className="ml-2 py-2 px-4 bg-blue-500 text-white rounded"
+                                onClick={handleSearch}
+                            >
+                                검색
+                            </button>
+                        </div>
+                        {/* 포스트 그리드 */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-center px-2 mx-auto">
                             {posts.map((post, index) => (
                                 <Post key={index} post={post} />
@@ -130,49 +175,38 @@ const BlogPosts = () => {
                 </div>
             </div>
 
+            {/* "더보기" 버튼 */}
             <div className="flex justify-center mt-8">
-            <button
-    className={`py-2 px-4 rounded ${loading ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
-    onClick={handleLoadMore}
-    disabled={loading}
->
-    {loading ? (
-        // 로딩 중 아이콘 표시
-        <svg
-            className="ml-1 w-4 h-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeDasharray="31.4"
-                strokeDashoffset="31.4"
-                transform="rotate(0 12 12)"
-                style={{ animation: 'spin 1s linear infinite' }}
-            />
-            <style>{`
-                @keyframes spin {
-                    from {
-                        stroke-dashoffset: 31.4;
-                    }
-                    to {
-                        stroke-dashoffset: 0;
-                    }
-                }
-            `}</style>
-        </svg>
-    ) : (
-        // '더보기' 텍스트 표시
-        '더보기'
-    )}
-</button>
-
+                <button
+                    className={`py-2 px-4 rounded ${loading ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
+                    onClick={handleLoadMore}
+                    disabled={loading}
+                >
+                    {/* 로딩 중이면 스피너 표시 */}
+                    {loading ? (
+                        <svg
+                            className="w-4 h-4 animate-spin"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            stroke="currentColor"
+                        >
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                strokeWidth="4"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeDasharray="31.4"
+                                strokeDashoffset="31.4"
+                                className="path"
+                            />
+                        </svg>
+                    ) : (
+                        '더보기'
+                    )}
+                </button>
             </div>
         </div>
     );
