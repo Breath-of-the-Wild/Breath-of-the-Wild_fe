@@ -131,13 +131,48 @@ const BlogPosts = () => {
             </div>
 
             <div className="flex justify-center mt-8">
-                <button
-                    className={`py-2 px-4 rounded ${loading ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
-                    onClick={handleLoadMore}
-                    disabled={loading}
-                >
-                    {loading ? '로딩 중...' : '더보기'}
-                </button>
+            <button
+    className={`py-2 px-4 rounded ${loading ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
+    onClick={handleLoadMore}
+    disabled={loading}
+>
+    {loading ? (
+        // 로딩 중 아이콘 표시
+        <svg
+            className="ml-1 w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeDasharray="31.4"
+                strokeDashoffset="31.4"
+                transform="rotate(0 12 12)"
+                style={{ animation: 'spin 1s linear infinite' }}
+            />
+            <style>{`
+                @keyframes spin {
+                    from {
+                        stroke-dashoffset: 31.4;
+                    }
+                    to {
+                        stroke-dashoffset: 0;
+                    }
+                }
+            `}</style>
+        </svg>
+    ) : (
+        // '더보기' 텍스트 표시
+        '더보기'
+    )}
+</button>
+
             </div>
         </div>
     );
