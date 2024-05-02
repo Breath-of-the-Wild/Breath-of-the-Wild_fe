@@ -4,6 +4,8 @@ import Map from "./pages/map";
 import Festival from "./pages/festival";
 import Assignment from "./pages/assignment";
 import Help from "./pages/help";
+import { element } from "prop-types";
+import FestivalDetail from "./components/festivalcom/FestivalDetail";
 
 
 export const routes = [
@@ -24,10 +26,18 @@ export const routes = [
   },
 
   {
-    name: "축제정보",
+    name: "축제 정보",
     path: "/festival",
     element: <Festival />,
-  },
+    children: [
+        {
+            name: "축제 상세 정보",
+            path: "detail/:addr1",
+            element: <FestivalDetail />,
+        },
+    ],
+},
+
 
   {
     name: "양도게시판",
@@ -49,6 +59,7 @@ export const routes = [
     path: "/SignUp",
     element: <SignUp />,
   },
+
 
 ];
 
