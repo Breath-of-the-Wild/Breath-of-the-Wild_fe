@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Footer, Navbar } from "@/widgets/layout";
 import routes from "@/routes";
+import FestivalDetail from "./components/festivalcom/FestivalDetail";
 
 
 function App() {

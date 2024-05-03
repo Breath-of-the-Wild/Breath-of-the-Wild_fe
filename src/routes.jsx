@@ -29,13 +29,7 @@ export const routes = [
     name: "축제 정보",
     path: "/festival",
     element: <Festival />,
-    children: [
-        {
-            name: "축제 상세 정보",
-            path: "detail/:addr1",
-            element: <FestivalDetail />,
-        },
-    ],
+   
 },
 
 
@@ -59,7 +53,11 @@ export const routes = [
     path: "/SignUp",
     element: <SignUp />,
   },
-
+  {
+    name: "",
+    path: "/detail/:addr1",
+    element: <FestivalDetail />,
+},
 
 ];
 

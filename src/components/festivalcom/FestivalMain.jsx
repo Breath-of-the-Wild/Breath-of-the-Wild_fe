@@ -6,7 +6,7 @@ import axios from 'axios';
 const Post = ({ post }) => (
     <article className="bg-white p-6 mb-6 shadow transition duration-300 group transform hover:-translate-y-2 hover:shadow-2xl rounded-2xl cursor-pointer border">
         {/* 축제 세부 정보를 보여주는 링크 */}
-        <Link to={post.slug} className="absolute top-0 right-0 left-0 bottom-0 opacity-0" />
+        <Link to={`/detail/${post.addr1}`} className="absolute top-0 right-0 left-0 bottom-0 opacity-0" />
         {/* 축제 이미지 */}
         <div className="relative mb-4 rounded-2xl">
             <img
@@ -16,7 +16,7 @@ const Post = ({ post }) => (
             />
             {/* 이미지 위의 축제 보러가기 버튼 */}
             <Link
-                to={`/festival/detail/${post.addr1}`}
+                to={`/detail/${post.addr1}`}
                 className="flex justify-center items-center bg-blue-700 bg-opacity-70 absolute top-0 left-0 w-full h-full text-white text-3xl rounded-2xl opacity-0 transition-all duration-300 group-hover:opacity-100"
             >
                 축제 보러가기
@@ -39,7 +39,7 @@ const Post = ({ post }) => (
         </div>
         {/* 축제 제목 */}
         <h3 className="font-medium text-xl leading-8">
-            <Link className="block relative group-hover:text-red-700 transition-colors duration-200" to={`/festival/detail/${post.addr1}`}>
+            <Link className="block relative group-hover:text-red-700 transition-colors duration-200" to={`/detail/${post.addr1}`}>
                 {post.title}
             </Link>
         </h3>
