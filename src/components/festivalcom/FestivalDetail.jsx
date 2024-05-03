@@ -48,9 +48,29 @@ const FestivalDetail = () => {
     );
 };//end of FestivalDetail
 
+// 날짜 형식 변환 함수
+function formatDate(dateString) {
+  // YYYYMMDD 형식의 문자열을 파싱하여 Date 객체 생성
+  const year = dateString.slice(0, 4);
+  const month = dateString.slice(4, 6);
+  const day = dateString.slice(6, 8);
+  
+  // Date 객체 생성
+  const date = new Date(year, month - 1, day);
+  
+  // 년도, 월, 일을 YYYY-MM-DD 형식으로 변환
+  const formattedDate = date.toISOString().split('T')[0];
+  
+  return formattedDate;
+}
+
+
 
 // SignInForm 컴포넌트: 로그인 폼을 나타내는 컴포넌트
 const SignInForm = ({matchingPost}) => {
+   // `formatDate` 함수를 사용하여 날짜 형식 변환
+   const formattedStartDate = formatDate(matchingPost.eventstartdate);
+   const formattedEndDate = formatDate(matchingPost.eventenddate);
   return (
     <div>
       <div className="mt-4">
@@ -90,7 +110,8 @@ const SignInForm = ({matchingPost}) => {
           className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
           type="text" 
           readOnly 
-          placeholder={`${matchingPost.eventstartdate}~${matchingPost.eventenddate}`}
+            // 날짜 형식을 YYYY-MM-DD로 변환하여 표시
+            placeholder={`${formattedStartDate}~${formattedEndDate}`}
         />
       </div>
       <div className="mt-4">

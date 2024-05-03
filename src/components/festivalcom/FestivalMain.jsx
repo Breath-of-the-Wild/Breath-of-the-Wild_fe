@@ -4,6 +4,7 @@ import axios from 'axios';
 
 // Post 컴포넌트: 각 축제 포스트를 나타내는 컴포넌트입니다.
 const Post = ({ post }) => (
+    
     <article className="bg-white p-6 mb-6 shadow transition duration-300 group transform hover:-translate-y-2 hover:shadow-2xl rounded-2xl cursor-pointer border">
         {/* 축제 세부 정보를 보여주는 링크 */}
         <Link to={`/detail/${post.contentid}`} className="absolute top-0 right-0 left-0 bottom-0 opacity-0" />
@@ -65,7 +66,8 @@ const Post = ({ post }) => (
                             <path d="M12 6v6h4" />
                             <circle cx="12" cy="12" r="10" />
                         </svg>
-                        {post.eventstartdate} ~ {post.eventenddate}
+                       {/* formatDate 함수를 사용하여 날짜 형식 변환 */}
+                {formatDate(post.eventstartdate)} ~ {formatDate(post.eventenddate)}
                     </p>
                 </div>
             </div>
@@ -86,6 +88,22 @@ const Post = ({ post }) => (
         </div>
     </article>
 );
+
+// 날짜 형식 변환 함수
+function formatDate(dateString) {
+    // YYYYMMDD 형식의 문자열을 파싱하여 Date 객체 생성
+    const year = dateString.slice(0, 4);
+    const month = dateString.slice(4, 6);
+    const day = dateString.slice(6, 8);
+    
+    // Date 객체 생성
+    const date = new Date(year, month - 1, day);
+    
+    // 년도, 월, 일을 YYYY-MM-DD 형식으로 변환
+    const formattedDate = date.toISOString().split('T')[0];
+    
+    return formattedDate;
+  }
 
 const BlogPosts = () => {
     // 상태 관리: 포스트, 전체 포스트, 페이지 번호, 로딩 상태, 검색 쿼리
