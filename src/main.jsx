@@ -17,13 +17,16 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import "../public/css/tailwind.css";
 import store from "./data/store";
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider store={store}>
+    <Provider store={store}>
+      <ThemeProvider>
         <App />
       </ThemeProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );
