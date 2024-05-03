@@ -6,7 +6,7 @@ import axios from 'axios';
 const Post = ({ post }) => (
     <article className="bg-white p-6 mb-6 shadow transition duration-300 group transform hover:-translate-y-2 hover:shadow-2xl rounded-2xl cursor-pointer border">
         {/* 축제 세부 정보를 보여주는 링크 */}
-        <Link to={`/detail/${post.addr1}`} className="absolute top-0 right-0 left-0 bottom-0 opacity-0" />
+        <Link to={`/detail/${post.contentid}`} className="absolute top-0 right-0 left-0 bottom-0 opacity-0" />
         {/* 축제 이미지 */}
         <div className="relative mb-4 rounded-2xl">
             <img
@@ -16,7 +16,7 @@ const Post = ({ post }) => (
             />
             {/* 이미지 위의 축제 보러가기 버튼 */}
             <Link
-                to={`/detail/${post.addr1}`}
+                to={`/detail/${post.contentid}`}
                 className="flex justify-center items-center bg-blue-700 bg-opacity-70 absolute top-0 left-0 w-full h-full text-white text-3xl rounded-2xl opacity-0 transition-all duration-300 group-hover:opacity-100"
             >
                 축제 보러가기
@@ -39,7 +39,7 @@ const Post = ({ post }) => (
         </div>
         {/* 축제 제목 */}
         <h3 className="font-medium text-xl leading-8">
-            <Link className="block relative group-hover:text-red-700 transition-colors duration-200" to={`/detail/${post.addr1}`}>
+            <Link className="block relative group-hover:text-red-700 transition-colors duration-200" to={`/detail/${post.contentid}`}>
                 {post.title}
             </Link>
         </h3>
@@ -102,7 +102,7 @@ const BlogPosts = () => {
 
         try {
             const response = await axios.get(apiUrl); // API 호출
-            const newPosts = response.data.response.body.items.item;
+            const newPosts = response.data.response.body.items.item;//호출한 API 데이터 추출
             
             // 첫 페이지인 경우 전체 포스트를 설정하고 초기화
             if (pageNo === 1) {
@@ -111,6 +111,9 @@ const BlogPosts = () => {
             } else {
                 // 중복된 포스트를 제외하고 추가
                 const uniqueNewPosts = newPosts.filter(post => !allPosts.some(existingPost => existingPost.contentid === post.contentid));
+                // 상태 업데이트 함수
+                // prevPosts는 현재 posts의 상태 즉, 현재 posts를 인자로 줌
+                // 현재 posts + 더보기로 추가한 데이터
                 setPosts(prevPosts => [...prevPosts, ...uniqueNewPosts]);
                 setAllPosts(prevAllPosts => [...prevAllPosts, ...uniqueNewPosts]);
             }

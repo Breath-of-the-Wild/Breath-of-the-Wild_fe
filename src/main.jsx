@@ -16,11 +16,12 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import "../public/css/tailwind.css";
+import store from "./data/store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
+      <ThemeProvider store={store}>
         <App />
       </ThemeProvider>
     </BrowserRouter>

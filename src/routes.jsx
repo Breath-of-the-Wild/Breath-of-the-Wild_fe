@@ -55,7 +55,7 @@ export const routes = [
   },
   {
     name: "",
-    path: "/detail/:addr1",
+    path: "/detail/:contentid",
     element: <FestivalDetail />,
 },
 
