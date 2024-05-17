@@ -8,17 +8,12 @@ import axios from 'axios';
 function WeatherTable({ selectedStartDate, selectedEndDate }) {
   const [weatherData, setWeatherData] = useState([]);
   const [dates, setDates] = useState([]);
-  const [clearCount, setClearCount] = useState(0);
-  const [regions, setRegions] = useState([]);
   const [filteredData, setFilteredData] = useState({});
-
-
-
   const [recommendResult, setRecommendResult] = useState({});
+  const [rankedRegions, setRankedRegions] = useState([]);
 
   useEffect(() => {
     setDates(getDates());
-    // setRegions(RegionData);
     if (selectedStartDate && selectedEndDate) {
       fetchWeatherData();
     }
@@ -26,10 +21,15 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
 
   useEffect(() => {
     if (weatherData.length > 0) {
-      // countClearValues();
       filterWeatherData();
     }
   }, [weatherData, dates]);
+
+  useEffect(() => {
+    if (Object.keys(recommendResult).length > 0) {
+      mapRankedRegions();
+    }
+  }, [recommendResult]);
 
   const getDates = () => {
     const startDate = new Date(selectedStartDate);
@@ -50,7 +50,6 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
     return `${month}.${day}`;
   };
 
-
   const orderedRegions = [
     "서울/경기",
     "충청도",
@@ -70,32 +69,32 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
   };
 
   const fetchWeatherData = async () => {
-
-
-
     try {
       const response = await axios.post('http://localhost:8080/api/weather/list', {
         startDate: selectedStartDate,
         endDate: selectedEndDate,
       });
 
-      const resultResponse = await axios.post('http://localhost:8080/api/weather/abc', {
+      const resultResponse = await axios.post('http://localhost:8080/api/weather/abc1', {
         startDate: selectedStartDate,
         endDate: selectedEndDate,
       });
 
       setWeatherData(response.data);
-      console.log(response.data);
       setRecommendResult(resultResponse.data);
       console.log(resultResponse.data);
     } catch (error) {
       console.error("날씨 데이터를 가져오는데 실패했습니다.", error);
     }
-
-
-
   };
-  
+
+  const mapRankedRegions = () => {
+    const rankedRegions = Object.keys(recommendResult).map(rank => {
+      const cityId = recommendResult[rank];
+      return regionMapping[cityId];
+    });
+    setRankedRegions(rankedRegions);
+  };
 
   const filterWeatherData = () => {
     const filtered = weatherData.reduce((acc, curr) => {
@@ -156,15 +155,14 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
           ))}
         </tbody>
       </table>
-
       <div>
-      {Object.keys(recommendResult).map((regionId) => (
-        <div key={regionId}>
-          {regionMapping[regionId]}: {recommendResult[regionId]}
-        </div>
-      ))}
-    </div>
-
+        <h2>Recommended Regions</h2>
+        <ol>
+          {rankedRegions.map((region, index) => (
+            <li key={index}>{index + 1}: {region}</li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }
