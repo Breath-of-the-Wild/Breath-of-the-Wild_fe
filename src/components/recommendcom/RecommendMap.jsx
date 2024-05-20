@@ -2,12 +2,37 @@ import React, { useEffect, useState } from 'react';
 import geojson from '@/data/sido';
 import RecommendCard from './RecommendCard';
 import RegionData from '@/data/RegionData';
+import axios from 'axios'; // axios 임포트
+import RegionMapping from '@/data/regionMapping';
 
-const PollutionMap = () => {
+const PollutionMap = ({ selectedStartDate, selectedEndDate }) => { // selectedStartDate, selectedEndDate 추가
 
   const [selectedArea, setSelectedArea] = useState(null); // 선택한 구역 정보를 담을 상태
   const [modalOpen, setModalOpen] = useState(false); // 모달 상태를 관리하는 상태 변수
+  const [rankedRegions, setRankedRegions] = useState([]); // 추천 지역 상태 추가
 
+  useEffect(() => {
+    fetchRecommendRegions(); // 추천 지역 데이터 가져오기
+  }, [selectedStartDate, selectedEndDate]);
+
+  const fetchRecommendRegions = async () => {
+    try {
+      const resultResponse = await axios.post('http://localhost:8080/api/weather/abc1', {
+        startDate: selectedStartDate,
+        endDate: selectedEndDate,
+      });
+      const rankedRegions = Object.keys(resultResponse.data).map(rank => {
+        const cityId = resultResponse.data[rank];
+        return RegionMapping[cityId];
+      });
+      setRankedRegions(rankedRegions);
+    } catch (error) {
+      console.error("추천 지역 데이터를 가져오는데 실패했습니다.", error);
+    }
+  };
+
+
+  //기존 승연찡 
   useEffect(() => {
     let data = geojson.features;
 
@@ -141,7 +166,20 @@ const PollutionMap = () => {
     <div id='total'>
       <div id="pollution-map" style={{ width: '100%', height: '550px' }}>
       </div>
-      
+
+
+
+      <div>
+        <h2>Recommended Regions</h2>
+        <ol>
+          {rankedRegions.map((region, index) => (
+            <li key={index}>{index + 1}: {region}</li>
+          ))}
+        </ol>
+      </div>
+
+
+
       {/* 모달 컴포넌트 */}
       {modalOpen && (
         <div className="modal-overlay" onClick={handleModalOutsideClick}>

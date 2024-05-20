@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './WeatherTable.css';
+import RegionMapping from '@/data/regionMapping';
 import WeatherIcon from '@/icon/WeatherIcons';
 import { WiHumidity } from "react-icons/wi";
 import { FaTemperatureHigh } from "react-icons/fa";
@@ -59,14 +60,14 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
     "제주도",
   ];
 
-  const regionMapping = {
-    6802827: "서울/경기",
-    6811761: "충청도",
-    1846355: "전라도",
-    1843125: "강원도",
-    1835650: "경상도",
-    1846266: "제주도",
-  };
+  // const regionMapping = {
+  //   6802827: "서울/경기",
+  //   6811761: "충청도",
+  //   1846355: "전라도",
+  //   1843125: "강원도",
+  //   1835650: "경상도",
+  //   1846266: "제주도",
+  // };
 
   const fetchWeatherData = async () => {
     try {
@@ -75,30 +76,30 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
         endDate: selectedEndDate,
       });
 
-      const resultResponse = await axios.post('http://localhost:8080/api/weather/abc1', {
-        startDate: selectedStartDate,
-        endDate: selectedEndDate,
-      });
+      // const resultResponse = await axios.post('http://localhost:8080/api/weather/abc1', {
+      //   startDate: selectedStartDate,
+      //   endDate: selectedEndDate,
+      // });
 
       setWeatherData(response.data);
-      setRecommendResult(resultResponse.data);
-      console.log(resultResponse.data);
+      // setRecommendResult(resultResponse.data);
+      // console.log(resultResponse.data);
     } catch (error) {
       console.error("날씨 데이터를 가져오는데 실패했습니다.", error);
     }
   };
 
-  const mapRankedRegions = () => {
-    const rankedRegions = Object.keys(recommendResult).map(rank => {
-      const cityId = recommendResult[rank];
-      return regionMapping[cityId];
-    });
-    setRankedRegions(rankedRegions);
-  };
+  // const mapRankedRegions = () => {
+  //   const rankedRegions = Object.keys(recommendResult).map(rank => {
+  //     const cityId = recommendResult[rank];
+  //     return RegionMapping[cityId];
+  //   });
+  //   setRankedRegions(rankedRegions);
+  // };
 
   const filterWeatherData = () => {
     const filtered = weatherData.reduce((acc, curr) => {
-      const region = regionMapping[curr.cityId];
+      const region = RegionMapping[curr.cityId];
       const date = new Date(curr.date);
       if (date >= new Date(selectedStartDate) && date <= new Date(selectedEndDate)) {
         if (!acc[curr.date]) {
@@ -155,14 +156,14 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
           ))}
         </tbody>
       </table>
-      <div>
+      {/* <div>
         <h2>Recommended Regions</h2>
         <ol>
           {rankedRegions.map((region, index) => (
             <li key={index}>{index + 1}: {region}</li>
           ))}
         </ol>
-      </div>
+      </div> */}
     </div>
   );
 }

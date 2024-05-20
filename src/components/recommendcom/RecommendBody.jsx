@@ -29,7 +29,7 @@ const RecommendBody = () => {
         
         {/* 지도 */}
         <div>
-          <PollutionMap />
+          <PollutionMap selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} />
         </div>
           
       </div>
