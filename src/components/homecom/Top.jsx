@@ -4,6 +4,8 @@ import './Top.css'
 import {
     Typography,
   } from "@material-tailwind/react";
+import Search from '../camp/Search';
+
 
 const Top = () => {
 
@@ -46,6 +48,7 @@ const Top = () => {
       
            
                  <div className=" ml-auto mr-auto w-full h-6/6 px-4 text-center slideshow ">
+         
       <div className="relative  h-screen content-center items-center justify-center pt-16 pb-32  inset-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center">
      
         
@@ -61,10 +64,7 @@ const Top = () => {
                             <span ref={typedContainer} className="typed-words"></span>
               </span>
               </Typography>
-              <div className="col">
-              <input className="rounded-md w-80 h-10 pl-3 col-2" type="text" placeholder="원하시는 지역을 입력해주세요"></input>
-              <button type="button" className="rounded-md w-10 h-10 col-2 bg-white ml-2" >검색</button>
-              </div>
+      <Search />
 
             </div>
           </div>

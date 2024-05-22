@@ -43,7 +43,14 @@ export const TopData = [
         id:'write',
         name:'리뷰쓰기',
         imgSrc:'/img/background/bg-c.jpg'
-    }
+    },
+    {
+        id:'camping',
+        name:'캠핑장 검색',
+        imgSrc:'/img/background/bg-c.jpg'
+    },
+
+
 ];
 
 export default TopData;

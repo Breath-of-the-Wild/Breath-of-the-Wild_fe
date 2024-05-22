@@ -10,7 +10,7 @@ const SearchF = ({ searchData }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?numOfRows=1000&pageNo=1&MobileOS=win&MobileApp=win&_type=json&arrange=Q&eventStartDate=20240401&serviceKey=tkpuYMyOJPiESQhzLecE1EshwjeUNeXfOJY7y8Rku7L2kh5E%2FbSH7NC7CZ1vvthRi72%2FidxEOUL%2FULnq0WWkHw%3D%3D`;
+        const apiUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?numOfRows=1000&pageNo=1&MobileOS=win&MobileApp=win&_type=json&arrange=Q&eventStartDate=20240501&serviceKey=tkpuYMyOJPiESQhzLecE1EshwjeUNeXfOJY7y8Rku7L2kh5E%2FbSH7NC7CZ1vvthRi72%2FidxEOUL%2FULnq0WWkHw%3D%3D`;
         const response = await axios.get(apiUrl);
         setAllData(response.data.response.body.items.item);
         setFilteredData(response.data.response.body.items.item);

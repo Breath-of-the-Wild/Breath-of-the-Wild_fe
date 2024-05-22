@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './WeatherTable.css';
-import RegionMapping from '@/data/regionMapping';
+import RegionMapping from '@/data/RegionMapping';
 import WeatherIcon from '@/icon/WeatherIcons';
 import { WiHumidity } from "react-icons/wi";
 import { FaTemperatureHigh } from "react-icons/fa";
@@ -117,7 +117,7 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
   };
 
   return (
-    <div className="-z-10 max-h-[550px] overflow-x-scroll over">
+    <div className="-z-10 max-h-[550px] overflow-y-scroll over">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 -z-10">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>

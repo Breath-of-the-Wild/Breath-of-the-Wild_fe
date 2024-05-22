@@ -30,7 +30,7 @@ const Left = ({ onButtonClick }) => {
             <div className='row-span-3 text-center rounded-md shadow-md p-5 grid grid-rows-3 gap-2'>
                 <button className="bg-green-50 my-auto rounded-md shadow-md p-6" onClick={() => onButtonClick('profile')}>내 정보 수정</button>
                 <button className="bg-green-50 my-auto rounded-md shadow-md p-6" onClick={() => onButtonClick('favorite')}>찜한 캠핑장</button>
-                <button className="bg-green-50 my-auto rounded-md shadow-md p-6" onClick={() => onButtonClick('review')}>리뷰쓰기</button>
+                <button className="bg-green-50 my-auto rounded-md shadow-md p-6" onClick={() => onButtonClick('review')}>작성한 리뷰</button>
             </div>
         </div>
     );

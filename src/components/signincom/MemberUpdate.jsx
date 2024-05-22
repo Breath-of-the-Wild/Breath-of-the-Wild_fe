@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "@/context/AuthProvider";
 import { HttpHeadersContext } from "@/context/HttpHeadersProvider";
+import Top from "../homecom/Top";
 
 function MemberUpdate(props) {
     const { headers, setHeaders } = useContext(HttpHeadersContext);
@@ -64,6 +65,7 @@ function MemberUpdate(props) {
 
 	return (
 		<div>
+			<Top />
 			<table className="table">
 				<tbody>
 					<tr>

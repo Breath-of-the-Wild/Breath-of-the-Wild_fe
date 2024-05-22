@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import geojson from '@/data/sido';
-import RecommendCard from './RecommendCard';
 import RegionData from '@/data/RegionData';
-import axios from 'axios'; // axios 임포트
-import RegionMapping from '@/data/regionMapping';
+import axios from 'axios';
+import RegionMapping from '@/data/RegionMapping';
 
-const PollutionMap = ({ selectedStartDate, selectedEndDate }) => { // selectedStartDate, selectedEndDate 추가
+const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
 
-  const [selectedArea, setSelectedArea] = useState(null); // 선택한 구역 정보를 담을 상태
-  const [modalOpen, setModalOpen] = useState(false); // 모달 상태를 관리하는 상태 변수
-  const [rankedRegions, setRankedRegions] = useState([]); // 추천 지역 상태 추가
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [rankedRegions, setRankedRegions] = useState([]);
+
+  const onPopup = ({ region }) => {
+    const url = `/recommendList?region=${region}`;
+    PollutionMap.current = window.open(url, "_blank", "noopener,noreferrer");
+    PollutionMap.current.param = { region };
+  };
 
   useEffect(() => {
-    fetchRecommendRegions(); // 추천 지역 데이터 가져오기
+    fetchRecommendRegions();
   }, [selectedStartDate, selectedEndDate]);
 
   const fetchRecommendRegions = async () => {
@@ -31,9 +35,14 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => { // selectedSt
     }
   };
 
+  const colors = {
+    first: '#6DD66D',
+    second: '#FFC341',
+    third: '#FF5A5A',
+  };
 
-  //기존 승연찡 
   useEffect(() => {
+
     let data = geojson.features;
 
     const script = document.createElement('script');
@@ -42,32 +51,22 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => { // selectedSt
     document.head.appendChild(script);
 
     script.onload = () => {
+
       const mapContainer = document.getElementById('pollution-map');
       const mapOption = {
-        center: new kakao.maps.LatLng(36.2683, 127.6358),
+        center: new kakao.maps.LatLng(35.76732900792388,127.96189115993688),
         level: 13,
-        draggable: false //확대축소금지
+        draggable: false
       };
 
-      // 지도생성
       const map = new kakao.maps.Map(mapContainer, mapOption);
-
-      const customOverlay = new kakao.maps.CustomOverlay({});
       const infowindow = new kakao.maps.InfoWindow({ removable: true });
 
       let pollution = [];
 
-      const displayArea = (coordinates, name) => {
+      const displayArea = (coordinates, name, fillColor) => {
         let path = [];
-        let points = [];
-        let areaResult = pollution.filter((item) => item[0] === name);
-        console.log(areaResult);
-
         coordinates[0].forEach((coordinate) => {
-          let point = {};
-          point.x = coordinate[1];
-          point.y = coordinate[0];
-          points.push(point);
           path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
         });
 
@@ -78,114 +77,106 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => { // selectedSt
           strokeColor: '#004c80',
           strokeOpacity: 0.8,
           strokeStyle: 'solid',
-          fillColor: '#fff',
+          fillColor: fillColor,
           fillOpacity: 0.7,
         });
 
-        
+        const originalFillOpacity = 0.7;
+        const hoverFillOpacity = 0.5;
 
         kakao.maps.event.addListener(polygon, 'mouseover', function () {
-          polygon.setOptions({ fillColor: '#09f' });
+          polygon.setOptions({ fillOpacity: hoverFillOpacity });
         });
 
         kakao.maps.event.addListener(polygon, 'mouseout', function () {
-          polygon.setOptions({ fillColor: '#fff' });
+          polygon.setOptions({ fillOpacity: originalFillOpacity });
         });
 
         kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
-          // 클릭한 폴리곤의 정보를 스테이트에 업데이트
           setSelectedArea(name);
-          setModalOpen(true); // 모달 열기
+          const region = name.split(' ')[0]; // '도' 추출
+          onPopup({ region });
           const content = '<div style="padding:2px;"><p><b>' + name + '</div>';
           infowindow.setContent(content);
           infowindow.setPosition(mouseEvent.latLng);
           infowindow.setMap(map);
         });
-
-        // 마커이미지
-        const imageSrc = 'https://i.ibb.co/vQYfjWb/rain-2982083.png',   
-        imageSize = new kakao.maps.Size(40, 40);
-        const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-        // 마커생성
-        for (const item of RegionData) {
-          const position = {
-            latLng: new kakao.maps.LatLng(item.latitude, item.longitude)
-          };
-          const marker = new kakao.maps.Marker({
-            map: map,
-            position: position.latLng,
-            image: markerImage
-          });
-        
-          // 인포윈도우를 생성합니다.
-          const iwContent = '<div style="padding:5px;">' + item.do + '<br />강수량:</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-          const infowindow = new kakao.maps.InfoWindow({
-            position: position.latLng,
-            content: iwContent
-          });
-        
-          // 마커에 마우스 오버 이벤트를 추가합니다.
-          kakao.maps.event.addListener(marker, 'mouseover', function () {
-            // 인포윈도우를 지도 위에 표시합니다.
-            infowindow.open(map, marker);
-          });
-        
-          // 마커에 마우스 아웃 이벤트를 추가합니다.
-          kakao.maps.event.addListener(marker, 'mouseout', function () {
-            // 인포윈도우를 닫습니다.
-            infowindow.close();
-          });
-        }
-        
-
       };
 
-      data.forEach((val) => {
-        let coordinates = val.geometry.coordinates;
-        let name = val.properties.SIG_KOR_NM;
+      const updateMap = () => {
+        data.forEach((val) => {
+          let coordinates = val.geometry.coordinates;
+          let name = val.properties.SIG_KOR_NM;
+          let fillColor;
 
-        displayArea(coordinates, name);
-      });
+          if (name.includes('경기') || name.includes('서울') || name.includes('인천')) {
+            if (rankedRegions[0].includes('서울') || rankedRegions[1].includes('서울')) {
+              fillColor = colors.first;
+            } else if (rankedRegions[2].includes('서울') || rankedRegions[3].includes('서울')) {
+              fillColor = colors.second;
+            } else if (rankedRegions[4].includes('서울') || rankedRegions[5].includes('서울')) {
+              fillColor = colors.third;
+            }
+          } else if (name.includes('제주')) {
+            if (rankedRegions[0].includes('제주') || rankedRegions[1].includes('제주')) {
+              fillColor = colors.first;
+            } else if (rankedRegions[2].includes('제주') || rankedRegions[3].includes('제주')) {
+              fillColor = colors.second;
+            } else if (rankedRegions[4].includes('제주') || rankedRegions[5].includes('제주')) {
+              fillColor = colors.third;
+            }
+          } else if (name.includes('경남') || name.includes('대구') || name.includes('경북') || name.includes('부산') || name.includes('울산')) {
+            if (rankedRegions[0].includes('경상') || rankedRegions[1].includes('경상')) {
+              fillColor = colors.first;
+            } else if (rankedRegions[2].includes('경상') || rankedRegions[3].includes('경상')) {
+              fillColor = colors.second;
+            } else if (rankedRegions[4].includes('경상') || rankedRegions[5].includes('경상')) {
+              fillColor = colors.third;
+            }
+          } else if (name.includes('전남') || name.includes('광주') || name.includes('전북')) {
+            if (rankedRegions[0].includes('전라') || rankedRegions[1].includes('전라')) {
+              fillColor = colors.first;
+            } else if (rankedRegions[2].includes('전라') || rankedRegions[3].includes('전라')) {
+              fillColor = colors.second;
+            } else if (rankedRegions[4].includes('전라') || rankedRegions[5].includes('전라')) {
+              fillColor = colors.third;
+            }
+          } else if (name.includes('충남') || name.includes('세종') || name.includes('대전') || name.includes('충북')) {
+            if (rankedRegions[0].includes('충청') || rankedRegions[1].includes('충청')) {
+              fillColor = colors.first;
+            } else if (rankedRegions[2].includes('충청') || rankedRegions[3].includes('충청')) {
+              fillColor = colors.second;
+            } else if (rankedRegions[4].includes('충청') || rankedRegions[5].includes('충청')) {
+              fillColor = colors.third;
+            }
+          } else if (name.includes('강원')) {
+            if (rankedRegions[0].includes('강원') || rankedRegions[1].includes('강원')) {
+              fillColor = colors.first;
+            } else if (rankedRegions[2].includes('강원') || rankedRegions[3].includes('강원')) {
+              fillColor = colors.second;
+            } else if (rankedRegions[4].includes('강원') || rankedRegions[5].includes('강원')) {
+              fillColor = colors.third;
+            }
+          }
+
+          displayArea(coordinates, name, fillColor);
+        });
+      };
+      updateMap();
     };
-  }, []);
-
-  const closeModal = () => {
-    setModalOpen(false); // 모달 닫기
-  };
-
-  const handleModalOutsideClick = (event) => {
-    // 모달 외부를 클릭하면 모달을 닫음
-    if (event.target === event.currentTarget) {
-      setModalOpen(false);
-    }
-
-  };
+  }, [rankedRegions]);
 
   return (
     <div id='total'>
-      <div id="pollution-map" style={{ width: '100%', height: '550px' }}>
-      </div>
-
-
-
-      <div>
+      <div id="pollution-map" style={{ width: '100%', height: '550px' }} />
+      {/* <div>
         <h2>Recommended Regions</h2>
         <ol>
           {rankedRegions.map((region, index) => (
             <li key={index}>{index + 1}: {region}</li>
           ))}
         </ol>
-      </div>
-
-
-
-      {/* 모달 컴포넌트 */}
-      {modalOpen && (
-        <div className="modal-overlay" onClick={handleModalOutsideClick}>
-            <RecommendCard area={selectedArea} onClose={closeModal} />
-        </div>
-      )}
+      </div> */}
     </div>
   );
 };
