@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 import { GiCampingTent } from "react-icons/gi";
 import { BiSolidLandscape } from "react-icons/bi";
-import { FaCampground, FaMountain, FaTree } from "react-icons/fa";
+import { FaCampground, FaTree } from "react-icons/fa";
 import './CampList.css';
 
 const CampList = ({ area }) => {
@@ -59,12 +59,12 @@ const CampList = ({ area }) => {
   };
 
   const handleNatureFilterChange = (nature) => {
-    setSelectedNature(nature);
+    setSelectedNature(prevNature => (prevNature === nature ? "" : nature));
     setCurrentPage(1); // Reset to first page
   };
 
   const handleIndutyFilterChange = (induty) => {
-    setSelectedInduty(induty);
+    setSelectedInduty(prevInduty => (prevInduty === induty ? "" : induty));
     setCurrentPage(1); // Reset to first page
   };
 
@@ -73,10 +73,12 @@ const CampList = ({ area }) => {
       <div className="rounded-md">총 {filteredData.length}개</div>
 
       <div className="filters">
-
-        <div className="filter-group flex flex-row items-center">
+        
+      <div className="filter-group flex flex-row items-center">
         
         <FaTree /><span>자연환경 :</span>
+
+
           {['호수', '도심', '숲', '해변', '산', '계곡', '강'].map(nature => (
             <button
               key={nature}
