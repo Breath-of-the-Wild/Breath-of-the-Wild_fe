@@ -2,7 +2,6 @@ import React from 'react';
 import Top from "@/components/top/Top";
 import RecommendCard from '@/components/recommendcom/RecommendCard';
 import { useLocation } from 'react-router-dom';
-import areas from '@/data/jssido';
 
 export function RecommendList() {  
   const location = useLocation();
@@ -12,7 +11,7 @@ export function RecommendList() {
     console.log(region)
   return (
     <div>
-      <Top title='recommend' />
+      <Top title={region} />
       
       <RecommendCard area={region} />
     </div>

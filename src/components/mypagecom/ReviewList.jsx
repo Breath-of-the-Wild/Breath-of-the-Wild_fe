@@ -3,7 +3,7 @@ import React from "react";
 const ReviewList = () => {
     return(
         <div>
-            찜한 캠핑장
+            리뷰 리스트
         </div>
     );
 };

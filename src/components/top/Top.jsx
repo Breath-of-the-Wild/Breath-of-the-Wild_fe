@@ -10,15 +10,13 @@ const Top = ({ title }) => {
 
   const topItem = TopData.find(item => item.id === title);
 
-  if (!topItem) {
-    return null;
-  }
+  const regionNm = !topItem ? `${title}의 캠핑장 추천` : '';
 
   return (
     <div style={{ height: '50vh' }}>
       <div className="ml-auto mr-auto w-full px-4 text-center h-full" 
            style={{
-             backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.45)),URL('${topItem.imgSrc}')`,
+             backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.45)),URL(${topItem ? topItem.imgSrc : "img/camp/camp1.jpg"})`,
              backgroundSize: 'cover',
              backgroundPosition: 'center'
            }}>
@@ -30,7 +28,7 @@ const Top = ({ title }) => {
                 color="white"
                 className="font-White"
               >
-                {topItem.name}
+                {topItem? topItem.name : regionNm}
               </Typography>
             </div>
           </div>
