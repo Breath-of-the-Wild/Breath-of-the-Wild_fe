@@ -4,6 +4,7 @@ import Profile from './Profile';
 import Favorite from './Favorite';
 import ReviewList from './ReviewList';
 import MyReviewList from '../reviewcom/MyReviewList';
+import SignUpForm from './SignUpForm';
 
 const MypageMain = () => {
     const [pageId, setPageId] = useState('profile');
@@ -19,8 +20,9 @@ const MypageMain = () => {
                     <Left onButtonClick={handleButtonClick}/>
                 </div>
                 {/* 오른쪽 */}
-                <div className='col-span-3 p-6 text-center rounded-md shadow-md'>
-                    {pageId === 'profile' && <Profile />}
+                <div className='col-span-3 text-center rounded-md shadow-md'>
+                    {pageId === 'profile' && <SignUpForm />}
+                    {/* {pageId === 'profile' && <Profile />} */}
                     {pageId === 'favorite' && <Favorite />}
                     {pageId === 'review' && <MyReviewList />}
                 </div>

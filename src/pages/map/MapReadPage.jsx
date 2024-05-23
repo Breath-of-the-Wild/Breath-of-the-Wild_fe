@@ -56,12 +56,14 @@ const MapReadPage = () => {
   if (!campingData) {
     return <div>Loading...</div>;
   }
-
   function ConditionalLi({ data }) {
     if (data.length === 0) {
       return null; // 길이가 0이면 null을 반환하여 아무것도 렌더링하지 않음
+    } else{
+      return <li>{data}</li>;
     }
   }
+  
 
   return (
     <div>
