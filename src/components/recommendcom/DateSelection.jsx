@@ -60,22 +60,17 @@ const DateSelection = ({ onSelectDate, label }) => {
 
 
     return (
-        <div ref={inputRef} className='grid grid-cols-4 text-center sm:grid-cols-2 md:grid-cols-4'>
-            <div className='col-span-3 mx-auto my-auto'>
+        <div ref={inputRef}>
             <input
                 type='text'
                 value={date}
                 placeholder='날짜선택'
                 size={11}
                 readOnly
-                className='bg-transparent w-full'
             />
-            </div>
-            <div className=' mx-auto my-auto'>
             <button type='button' onClick={handleClickButton} style={{ display: 'inline-block' }}>
-                <BsFillCalendarHeartFill className="calendar-heart-icon"/>
+                <BsFillCalendarHeartFill />
             </button>
-            </div>
         
             {open && (
                 <div ref={calendarRef} className='calendar'>

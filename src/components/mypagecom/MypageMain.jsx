@@ -3,7 +3,6 @@ import Left from './MypageLeft';
 import Profile from './Profile';
 import Favorite from './Favorite';
 import ReviewList from './ReviewList';
-import MyReviewList from '../reviewcom/MyReviewList';
 
 const MypageMain = () => {
     const [pageId, setPageId] = useState('profile');
@@ -22,7 +21,7 @@ const MypageMain = () => {
                 <div className='col-span-3 p-6 text-center rounded-md shadow-md'>
                     {pageId === 'profile' && <Profile />}
                     {pageId === 'favorite' && <Favorite />}
-                    {pageId === 'review' && <MyReviewList />}
+                    {pageId === 'review' && <ReviewList />}
                 </div>
             </div>
        </div>

@@ -1,137 +1,75 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Accordion = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ReviewWrite = () => {
+    const [image, setImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [formData, setFormData] = useState({
+        subject: '',
+        message: ''
+    });
 
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
 
-  return (
-    <div className="block mt-4 max-w-4xl mx-auto p-8 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
-      <div className="cursor-pointer p-4 " onClick={toggleAccordion}>
-        <h1 className="text-3xl font-extrabold whitespace-nowrap ">
-          {title}
-        </h1>
-        <p className="text-sm text-gray-400 mt-3 whitespace-nowrap">이 곳을 클릭해주세요.</p>
-      </div>
-      {isOpen && (
-        <div className="p-4">
-          {children}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ReviewWrite = ( {contentId} ) => {
-  const [image, setImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
-  const [formData, setFormData] = useState({
-    subject: '',
-    message: ''
-  });
-  const username = localStorage.getItem("username");
-  const emails = localStorage.getItem("id");
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imageFile, setImageFile] = useState('');
-  const [createdBy, setCreatedBy] = useState(username);
-  const [email, setEmail] = useState(emails);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleSubmit = async () => {
-    if (image) {
-      const formData = new FormData();
-      formData.append('file', image);
-  
-      try {
-        // 이미지 업로드 요청
-        const uploadResponse = await axios.post('http://localhost:8080/api/images/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-  
-        // 이미지 업로드 성공, 리뷰 데이터에 이미지 정보 포함
-        const savedImage = uploadResponse.data;
-        const reviewData = {
-          title,
-          content,
-          imageFile: savedImage.fileName, // 업로드된 이미지의 파일 경로를 사용
-          createdBy,
-          contentId,
-          email
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreviewImage(reader.result);
         };
-  
-        // 리뷰 데이터 전송
-        const response = await axios.post('http://localhost:8080/api/reviews/create', reviewData);
-        console.log('Review submitted:', response.data);
-        // 성공 메시지 표시 또는 폼 초기화 등의 후속 조치
-      } catch (error) {
-        console.error('There was an error!', error);
-      }
-    } else {
-      console.error('No image selected');
-      // 이미지가 선택되지 않았다는 메시지 처리
-    }
-  };
+        reader.readAsDataURL(file);
+    };
 
-  return (
-    <Accordion title="리뷰작성">
-      <div className="space-y-5">
-        <input
-          type='text'
-          name='subject'
-          placeholder='제목'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
-        />
-        <input
-          type="file"
-          onChange={handleImageChange}
-          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
-        />
-        <div className="justify-self-end">
-          {previewImage && (
-            <img
-              src={previewImage}
-              alt="Preview"
-              style={{ width: '200px', height: 'auto', marginRight: '75px' }}
-            />
-          )}
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const data = new FormData(); // FormData 객체 생성
+            data.append('image', image); // 이미지 파일 추가
+            data.append('subject', formData.subject);
+            data.append('message', formData.message);
+
+            await axios.post('http://example.com/api/reviews', data);
+            alert('리뷰 작성이 완료되었습니다.');
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('리뷰를 제출하지 못했습니다. 나중에 다시 시도해주세요.');
+        }
+    };
+
+
+return (
+    <div className="my-6" >
+        <div className="grid sm:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
+             <div className=" justify-self-end">
+                
+                {previewImage && (<img src={previewImage} alt="Preview" style={{ width: '200px', height: 'auto', marginRight: '75px'  }} />)}
+                
+            </div>
+          
+            <form className="ml-auo space-y-5">
+            <div className="grid sm:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
+            <div>
+                <h1 className="text-3xl font-extrabold whitespace-nowrap" >Please write a review.</h1>
+                <p className="text-sm text-gray-400 mt-3 whitespace-nowrap">리뷰를 작성해주세요.</p>
+                
+            </div>
+            </div>
+                {/* <input type='text' placeholder='Name'
+                    className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]" /> */}
+                <input type='text' placeholder='제목'
+                    className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]" />
+        <input type="file" onChange={handleImageChange} className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"/>
+                
+                <textarea placeholder='리뷰를 작성해주세요.' rows="6"
+                    className="w-full rounded-md px-4 border text-sm pt-2.5 outline-[#007bff]"></textarea>
+                <button onClick={handleSubmit}
+                    className="text-white bg-[#171717] hover:bg-blue-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full">Send</button>
+            </form>
         </div>
-        <textarea
-          name='message'
-          placeholder='리뷰를 작성해주세요.'
-          rows="6"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          className="w-full rounded-md px-4 border text-sm pt-2.5 outline-[#007bff]"
-        />
-        <button
-          type="button"
-          onClick={handleSubmit}
-          className="text-white bg-[#171717] hover:bg-blue-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full"
-        >
-          리뷰 작성
-        </button>
-      </div>
-    </Accordion>
-  );
-};
-
+    </div>
+)
+}
 export default ReviewWrite;

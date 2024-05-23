@@ -1,7 +1,7 @@
 import React from 'react';
 
   import { FeatureCard} from "@/widgets/cards";
-  import { featuresData} from "@/data";
+  import { featuresData } from "@/data";
 
 const FeatureCard1 = () => {
     return (

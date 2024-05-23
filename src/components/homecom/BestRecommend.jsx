@@ -1,83 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 import { GiCampingTent } from "react-icons/gi";
 import { BiSolidLandscape } from "react-icons/bi";
-import Top from '@/components/top/Top';
 
-const CampingSearchPage = () => {
-// 현재 페이지의 URL을 가져옵니다.
-const url = new URL(window.location.href);
+const BestRecommend = () => {
+  const [campingData, setCampingData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3); // 페이지당 항목 수
 
-// pathname을 분리하여 배열로 만듭니다.
-const pathParts = url.pathname.split('/').filter(part => part); // 빈 문자열을 제거합니다.
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+          const response = await axios.get('http://localhost:8080/api/camping/all');
 
-// 세 번째 부분 추출
-const thirdPart = pathParts.length >= 3 ? decodeURIComponent(pathParts[2]) : null;
-
-    const { searchType, searchValue } = useParams();
-
-    const [campingData, setCampingData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(20); // 페이지당 항목 수
-  
-    useEffect(() => {
-        const fetchCampings = async () => {
-          try {
-            const response = await axios.get('http://localhost:8080/api/camping/search', {
-              params: { searchType, searchValue },
-            });
-            setCampingData(response.data);
-          } catch (error) {
-            console.error('Error fetching campings', error);
-          }
-        };
-    
-        fetchCampings();
-      }, [searchType, searchValue]);
-  
-
-  
-    const totalPages = Math.ceil(campingData.length / itemsPerPage);
-  
-    const getCurrentPageItems = () => {
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      return campingData.slice(startIndex, endIndex);
+        if (response.data) {
+          setCampingData(response.data);
+        } else {
+          console.error('Error fetching data: Response body structure is incorrect');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
-  
-    const nextPage = () => {
-      setCurrentPage(currentPage => Math.min(currentPage + 1, totalPages));
-    };
-  
-    const prevPage = () => {
-      setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
-    };
-  
-  
 
-    return (
-        <div>
-            <Top title='camping' />
-            <div className='mt-10 mx-auto max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8'>
+    fetchData();
+  }, []);
 
-            <Typography
-            variant='h5'
-            className='mb-5'>
-              "{thirdPart}" 검색 결과 : 총 {campingData.length}개
-              </Typography>
+  const totalPages = Math.ceil(campingData.length / itemsPerPage);
 
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return campingData.slice(startIndex, endIndex);
+  };
+
+  const nextPage = () => {
+    setCurrentPage(currentPage => Math.min(currentPage + 1, totalPages));
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
+  };
+
+
+  return (
+    <div>
+
+        
         <div className="grid grid-cols-2 gap-5 md:grid-cols-3">
             {getCurrentPageItems().map((camp) => (
             <Link key={camp.contentId} to={`/MapReadPage/${camp.contentId}`}>
                 <div id='camp' className='rounded-md shadow-md p-3 grid grid-rows-7'>
                     <div className='row-span-4 overflow-hidden'>
-                          <img 
-                          src={camp.firstImageUrl ? camp.firstImageUrl : "img/camp/camp1.jpg"}
-                          className='h-full w-full object-cover rounded-sm' 
-                          alt={camp.facltNm} />
+                          <img src={camp.firstImageUrl} className='h-full w-full object-cover rounded-sm' alt={camp.facltNm} />
                     </div>
                     {/* 이름 별점 */}
                         <div className='flex justify-between my-auto'>
@@ -119,11 +96,19 @@ const thirdPart = pathParts.length >= 3 ? decodeURIComponent(pathParts[2]) : nul
         </div>
         <div className="flex justify-center mt-6">
           <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md focus:outline-none">이전</button>
+          {/* <select
+              value={currentPage}
+              onChange={e => setCurrentPage(parseInt(e.target.value))}
+              className="block py-2.5 px-0 w-12 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+            >
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                <option key={page} value={page}>{page}</option>
+              ))}
+            </select> */}
           <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none">다음</button>
         </div>
-      </div>
       </div>
   );
 };
 
-export default CampingSearchPage;
+export default BestRecommend;

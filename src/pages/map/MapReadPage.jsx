@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { FaTag, FaRegHeart } from "react-icons/fa";
+import { FaTag, FaRegHeart, FaHeart } from "react-icons/fa";
 import { RiComputerFill } from "react-icons/ri";
 import { FaLocationDot } from "react-icons/fa6";
 import { Typography } from '@material-tailwind/react';
@@ -9,7 +9,6 @@ import Top from "@/components/top/Top";
 import MapMarker from '@/components/mapcom/MapMarker';
 import SearchF from '@/components/mapcom/SearchF';
 import ReviewWrite from '@/components/reviewcom/ReviewWrite';
-import ReviewList from '@/components/reviewcom/ReviewList';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -20,6 +19,7 @@ const MapReadPage = () => {
   const email = localStorage.getItem("id");
   const [campingData, setCampingData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [handleLike, setHandleLike] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,39 +38,43 @@ const MapReadPage = () => {
     fetchData();
   }, [contentId]);
 
-  const handleLike = async () => {
-    try {
-      const response = await axios.post('http://localhost:8080/api/camplike', {
-        contentId: contentId,
-        memberEmail: email // Replace with actual member email
-      });
-
-      if (response.status === 200) {
-        setIsLiked(true);
-      }
-    } catch (error) {
-      console.error('Error saving like:', error);
-    }
+  //찜하기 
+  const callAddWishAPI = async () => {
+    // back 호출 favorite 등록
   };
 
+  const callRemoveWishAPI = async () => {
+    // back 호출 favorite삭제
+  };
+
+  const handleLikeClick = async (event) => {
+    event.preventDefault();
+    if (!handleLike) {
+      await callAddWishAPI();
+    } else {
+      await callRemoveWishAPI();
+    }
+    setHandleLike(!handleLike);
+  };
+
+
+
   if (!campingData) {
-    return <div>Loading...</div>;
+    return <div>로딩중...</div>;
   }
+
   function ConditionalLi({ data }) {
     if (data.length === 0) {
       return null; // 길이가 0이면 null을 반환하여 아무것도 렌더링하지 않음
-    } else{
-      return <li>{data}</li>;
     }
   }
-  
 
   return (
     <div>
       <Top title='mapread' />
       <div className="bg-white">
         {/* 사진 */}
-        <div className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="mt-10 mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <img
             src={campingData.firstImageUrl ? campingData.firstImageUrl : "img/camp/camp.jpg"}
             className="h-full w-full object-cover object-center"
@@ -117,7 +121,7 @@ const MapReadPage = () => {
               <RiComputerFill color='green'/>
               <p className='pl-2'><a href={campingData.homepage}>{campingData.homepage}</a></p>
             </div>
-         
+            <form className="mt-10">
               <div className="mt-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium text-gray-900">세부사항</h3>
@@ -127,26 +131,22 @@ const MapReadPage = () => {
                   {/* Add other details here */}
                 </div>
               </div>
-
+              <ReviewWrite />
               <div className='mt-10 grid grid-cols-2 gap-3'>
-                <div
-                  className="w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                  <a href={campingData.homepage}>예약하러가기</a>
-                </div>
+              <a href={campingData.homepage}><div
+                  className="w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-center">
+                  예약하러가기
+                </div></a>
                 <button 
                   className='flex w-full items-center justify-center font-medium rounded-md shadow-md hover:bg-blue-gray-50'
-                  onClick={handleLike}
-                  disabled={isLiked}
+                  onClick={handleLikeClick}
                 >
-                  <FaRegHeart />
-                  <p className='p-2'>{isLiked ? '찜 완료' : '찜하기'}</p>
+                  {handleLike ? <FaHeart color='red'/>  : <FaRegHeart />}
+                  {handleLike ? <p className='p-2'>찜 완료</p> : <p className='p-2'>찜하기</p>}
                 </button>
-
-                <ReviewList contentId={contentId} />
-                
+                <ReviewWrite />
               </div>
-              <ReviewWrite contentId={contentId} />
-     
+            </form>
           </div>
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
             <div>

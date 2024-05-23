@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import geojson from '@/data/sido';
+import RegionData from '@/data/RegionData';
 import axios from 'axios';
 import RegionMapping from '@/data/RegionMapping';
 

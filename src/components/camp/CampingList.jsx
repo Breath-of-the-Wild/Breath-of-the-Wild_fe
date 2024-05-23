@@ -2,22 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
-import FilterComponent from './FilterComponent';
-import '../mapcom/CampList.css';
-import CampCard from './CampCard';
-
+import { GiCampingTent } from "react-icons/gi";
+import { BiSolidLandscape } from "react-icons/bi";
 
 const CampingList = () => {
   const [campingData, setCampingData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(20);
-  const [selectedNature, setSelectedNature] = useState("");
-  const [selectedInduty, setSelectedInduty] = useState("");
+  const [itemsPerPage] = useState(20); // 페이지당 항목 수
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/camping/all');
+          const response = await axios.get('http://localhost:8080/api/camping/all');
+
         if (response.data) {
           setCampingData(response.data);
         } else {
@@ -31,18 +29,12 @@ const CampingList = () => {
     fetchData();
   }, []);
 
-  const filteredData = campingData.filter(camp => {
-    const matchesNature = selectedNature ? camp.lctCl.includes(selectedNature) : true;
-    const matchesInduty = selectedInduty ? camp.induty.includes(selectedInduty) : true;
-    return matchesNature && matchesInduty;
-  });
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const totalPages = Math.ceil(campingData.length / itemsPerPage);
 
   const getCurrentPageItems = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredData.slice(startIndex, endIndex);
+    return campingData.slice(startIndex, endIndex);
   };
 
   const nextPage = () => {
@@ -53,50 +45,37 @@ const CampingList = () => {
     setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
   };
 
-  const handleNatureFilterChange = (nature) => {
-    setSelectedNature(prevNature => (prevNature === nature ? "" : nature));
-    setCurrentPage(1); // Reset to first page
-  };
-
-  const handleIndutyFilterChange = (induty) => {
-    setSelectedInduty(prevInduty => (prevInduty === induty ? "" : induty));
-    setCurrentPage(1); // Reset to first page
-  };
-
-// 검색 결과를 필터링합니다.
+  // 검색 결과를 필터링합니다.
    // handleSearch 함수 수정
-   const handleSearch = async () => {
-    // 전체 데이터를 요청하여 가져옵니다.
-    const apiUrl = `http://localhost:8080/api/camping/all`;
-    
-    try {
-        const response = await axios.get(apiUrl);
-        const allData = response.data;
+const handleSearch = async () => {
+  // 전체 데이터를 요청하여 가져옵니다.
+  const apiUrl = `http://localhost:8080/api/camping/all`;
   
-        // 검색 쿼리가 있을 때 전체 데이터에서 필터링합니다.
-        if (searchQuery) {
-            const lowerCaseQuery = searchQuery.toLowerCase();
-            const filteredPosts = allData.filter(camp => camp.addr1.toLowerCase().includes(lowerCaseQuery));
-            setPosts(filteredPosts);
-        } else {
-            // 검색 쿼리가 없는 경우 전체 데이터를 표시합니다.
-            setPosts(allData);
-        }
-    } catch (error) {
-        console.error('검색 중 오류가 발생했습니다:', error);
-    }
-  };
-  const [searchType, setSearchType] = useState('facltNm');
-  const [searchValue, setSearchValue] = useState('');
-  
+  try {
+      const response = await axios.get(apiUrl);
+      const allData = response.data;
+
+      // 검색 쿼리가 있을 때 전체 데이터에서 필터링합니다.
+      if (searchQuery) {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          const filteredPosts = allData.filter(camp => camp.addr1.toLowerCase().includes(lowerCaseQuery));
+          setPosts(filteredPosts);
+      } else {
+          // 검색 쿼리가 없는 경우 전체 데이터를 표시합니다.
+          setPosts(allData);
+      }
+  } catch (error) {
+      console.error('검색 중 오류가 발생했습니다:', error);
+  }
+};
+const [searchType, setSearchType] = useState('facltNm');
+const [searchValue, setSearchValue] = useState('');
+
 
   return (
     <div className="relative pt-2 lg:pt-2 min-h-screen">
-      
-      <div className='bg-white rounded-md shadow-lg w-full md:w-1/2 mx-auto -mt-20 py-5 max-w-xl px-5 min-w-xl'>
-
-        {/* 검색 */}
-        <div className='grid grid-cols-4 mx-auto gap-3 ml-3 mb-5'>
+      {/* 검색 바 */}
+      <div className="bg-white rounded-md shadow-lg w-full md:w-1/3 mx-auto -mt-12 py-5 mb-10 grid grid-cols-4 gap-4 px-4">
         <select
           className="rounded-md h-10 col-span-1 sm:col-span-1"
             value={searchType}
@@ -109,10 +88,12 @@ const CampingList = () => {
         <input
           type="text"
           placeholder="검색어를 입력하세요"
-         className="px-5 py-2 border rounded col-span-2 sm:col-span-2"
+         className="py-2 border rounded col-span-2 sm:col-span-2"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
+
+        {/* 검색 버튼 */}
         <div className="mx-auto col-span-1 sm:col-span-1">
         <Link to={`/CampingSearchPage/${searchType}/${searchValue}`}>
           <button
@@ -123,45 +104,70 @@ const CampingList = () => {
           </button>
         </Link>
         </div>
-        </div>
-
-      {/* 필터 */}
-      <div className='mx-auto'>
-        <FilterComponent
-          selectedNature={selectedNature}
-          selectedInduty={selectedInduty}
-          onNatureChange={handleNatureFilterChange}
-          onIndutyChange={handleIndutyFilterChange}
-        />
       </div>
-      </div>
-
-      <div className='max-w-2xl p-5 lg:max-w-7xl lg:px-8 mx-auto'>
-      <Typography
-      variant='h6'className='mb-5'>
-        총 {filteredData.length}개
+      
+      <div className='mt-10 mx-auto max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8'>
+        <Typography
+            variant='h5'
+            className='mb-5'>
+              총 {campingData.length}개
         </Typography>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 ">
-        {getCurrentPageItems().map((camp) => (
-          <CampCard
-          key={camp.contentId}
-          contentId={camp.contentId}
-          firstImageUrl={camp.firstImageUrl? camp.firstImageUrl : "img/camp/camp1.jpg"}
-          facltNm={camp.facltNm}
-          induty={camp.induty}
-          lctCl={camp.lctCl}
-          addr1={camp.addr1}
-        />
-        ))}
-      </div>
-      </div>
 
-      <div className="flex justify-center mt-6">
-        <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-green-500 text-white rounded-md focus:outline-none">이전</button>
-        <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-green-500 text-white rounded-md focus:outline-none">다음</button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-center max-w-2xl p-5 lg:max-w-7xl lg:px-8 mx-auto">
+            {getCurrentPageItems().map((camp) => (
+            <Link key={camp.contentId} to={`/MapReadPage/${camp.contentId}`}>
+                <div id='camp' className='rounded-md shadow-md p-3 grid grid-rows-7'>
+                    <div className='row-span-4 overflow-hidden'>
+                          <img 
+                          src={camp.firstImageUrl ? camp.firstImageUrl : "img/camp/camp1.jpg"}
+                          className='h-full w-full object-cover rounded-sm' 
+                          alt={camp.facltNm} />
+                    </div>
+                    {/* 이름 별점 */}
+                        <div className='flex justify-between my-auto'>
+                        <Typography
+                        variant='h5'                  
+                        >
+                          {camp.facltNm}
+                        </Typography>
+                        <Typography
+                        variant='h6'
+                        color='yellow'
+                        >
+                            별점
+                        </Typography>
+                        </div>
+                    {/* 정보 */}
+                        <div className='flex gap-3 my-auto'>
+                            <div className='flex'>
+                                <GiCampingTent size={23}/>
+                                <p>{camp.induty}</p>
+                            </div>
+                            <div className='flex'>
+                                < BiSolidLandscape size={20}/>
+                                <p>{camp.lctCl}</p>
+                            </div>
+                        </div>
+                    {/* 주소 */}
+                        <div className=' my-auto'>
+                        <Typography
+                        variant='h7'
+                        className='truncate'
+                        >
+                            {camp.addr1}
+                            </Typography>
+                        </div>
+                </div>
+            </Link>
+        ))}
+        </div>
+        <div className="flex justify-center mt-6">
+          <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-green-500 text-white rounded-md focus:outline-none">이전</button>
+          <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-green-500 text-white rounded-md focus:outline-none">다음</button>
+        </div>
       </div>
-    </div>
-  );
+    </div>        
+);
 };
 
 export default CampingList;
