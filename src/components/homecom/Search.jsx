@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Typography } from "@material-tailwind/react";
 import DateSelection from '../recommendcom/DateSelection';
 import { Link } from 'react-router-dom';
-import './Search.css'
+import './Search.css';
 
 const Search = ({ onDateChange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);

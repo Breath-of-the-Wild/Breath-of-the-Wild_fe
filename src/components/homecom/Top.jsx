@@ -12,9 +12,9 @@ const Top = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [
-    '/img/background/background-1.jpg',
-    '/img/background/background-4.jpg',
-    '/img/background/background-5.jpg'
+    `/img/background/background-1.jpg`,
+    `/img/background/background-4.jpg`,
+    `/img/background/background-5.jpg`
   ];
 
   useEffect(() => {

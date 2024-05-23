@@ -146,7 +146,7 @@ Footer.defaultProps = {
   ],
   copyright: (
     <>
-      Copyright © {year}  젤다의 전설{" "}
+      Copyright © {year} 젤다의 전설{" "}
       <a
         href="https://www.creative-tim.com?ref=mtk"
         target="_blank"

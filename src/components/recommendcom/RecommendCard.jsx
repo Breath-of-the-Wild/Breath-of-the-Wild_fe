@@ -1,5 +1,5 @@
 import React from 'react';
-import './PollutionMap.css'
+import './RecommendMap.css'
 import CampList from '../mapcom/RecommendCampList';
 
 const RecommendCard = ({area}) => {

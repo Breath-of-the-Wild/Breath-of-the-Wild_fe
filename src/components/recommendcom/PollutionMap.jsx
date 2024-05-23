@@ -171,7 +171,7 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
 
   return (
     <div id='total'>
-      <div id="pollution-map" style={{ width: '100%', height: '550px' }} />
+      <div id="pollution-map" className="rounded-xl shadow-xl" style={{ width: '100%', height: '550px' }} />
       {/* <div>
         <h2>Recommended Regions</h2>
         <ol>

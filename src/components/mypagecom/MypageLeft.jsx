@@ -7,11 +7,11 @@ const Left = ({ onButtonClick }) => {
     return(
         <div>
             {/* 사용자 정보 */}
-            <div className='grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 text-center rounded-md shadow-md p-5'>
+            <div className='grid grid-cols-3 sm:grid-cols-1 lg:grid-cols-3 text-center rounded-md shadow-md p-5'>
                 <div className="m-auto">
                     <IoPersonCircleSharp className="text-green-500 w-10 h-10 md:w-20 md:h-20 lg:w-25 lg:h-25"/>
                 </div>
-                <div className='my-auto'>
+                <div className='my-auto col-span-2'>
                     <Typography
                         variant='h6'
                     >
@@ -20,6 +20,7 @@ const Left = ({ onButtonClick }) => {
                     <Typography
                         variant='h7'
                         color='gray'
+                        className="overflow-visible"
                     >
                     {email} 님 환영합니다. 
                     </Typography>

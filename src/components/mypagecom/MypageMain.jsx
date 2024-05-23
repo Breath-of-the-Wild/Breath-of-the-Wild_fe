@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import Left from './MypageLeft';
-import Profile from './Profile_backup';
-import Favorite from './Favorite';
-import ReviewList from './ReviewList';
 import MyReviewList from '../reviewcom/MyReviewList';
-import SignUpForm from './Profile';
+import UserLikedCamps from '../camp/UserLikedCamp';
+import SignupForm from './Profile';
 
 const MypageMain = () => {
+    const email = localStorage.getItem("id");     
     const [pageId, setPageId] = useState('profile');
     const handleButtonClick = (id) => {
         setPageId(id);
@@ -20,10 +19,10 @@ const MypageMain = () => {
                     <Left onButtonClick={handleButtonClick}/>
                 </div>
                 {/* 오른쪽 */}
-                <div className='col-span-3 text-center rounded-md shadow-md'>
-                    {pageId === 'profile' && <SignUpForm />}
+                <div className='col-span-3 p-6 text-center rounded-md shadow-md'>
+                {pageId === 'profile' && <SignupForm />}
                     {/* {pageId === 'profile' && <Profile />} */}
-                    {pageId === 'favorite' && <Favorite />}
+                    {pageId === 'favorite' &&  <UserLikedCamps />}
                     {pageId === 'review' && <MyReviewList />}
                 </div>
             </div>
