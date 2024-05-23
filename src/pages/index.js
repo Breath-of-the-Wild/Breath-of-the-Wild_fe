@@ -1,4 +1,3 @@
-export * from "@/pages/home";
-export * from "@/pages/common/profile";
-export * from "@/pages/signin";
-export * from "@/pages/signup";
+export * from "@/pages/home/home";
+export * from "@/pages/sign/signin";
+export * from "@/pages/sign/signup";

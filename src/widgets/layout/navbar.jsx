@@ -14,7 +14,39 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export function Navbar({ brandName, routes, action }) {
 
-
+  const accessToken = localStorage.getItem("bbs_access_token");
+  const email = localStorage.getItem("id");
+  const username = localStorage.getItem("username");
+  const kakaoid = localStorage.getItem("kakaoid");
+// 값이 null이면 로그인 버튼, 아니면 로그아웃 버튼 출력
+const buttonContent = accessToken ? (
+  <div className="flex">
+     {username} 님
+  <Link to="./logout">
+    <Button variant="gradient" size="sm" fullWidth>
+      로그아웃
+    </Button>
+  </Link>
+  <Link to="./mypage">
+    <Button variant="gradient" size="sm" fullWidth>
+      마이페이지
+    </Button>
+  </Link>
+</div>
+) : (
+  <div className="flex">
+  <Link to="./Signin">
+    <Button variant="gradient" size="sm" fullWidth>
+      로그인
+    </Button>
+  </Link>
+  <Link to="./SignUp">
+    <Button variant="gradient" size="sm" fullWidth>
+      회원가입
+    </Button>
+  </Link>
+  </div>
+);
 
   const [openNav, setOpenNav] = React.useState(false);
 
@@ -71,7 +103,7 @@ export function Navbar({ brandName, routes, action }) {
         <Link to="/">
           <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
           <div className="flex items-center">
-          <img src="/img/icon/logo1.png" alt="로고 이미지" className="w-auto h-28" />  
+          <img src="/img/icon/logo1.png" alt="로고 이미지" className="w-auto h-32" />  
           <span className="text-xl">
             {brandName}</span>
             </div>
@@ -79,14 +111,13 @@ export function Navbar({ brandName, routes, action }) {
         </Link>
         <div className="hidden lg:block">{navList}
   
-
         </div>
         <div className="hidden gap-2 lg:flex">
-        <Link to="./signin">
-      <Button variant="gradient" size="sm" fullWidth >
-        로그인
-      </Button>
-    </Link>
+
+
+    <div>
+      {buttonContent}
+    </div>
           {React.cloneElement(action, {
             className: "hidden lg:inline-block",
           })}
@@ -132,11 +163,10 @@ export function Navbar({ brandName, routes, action }) {
 Navbar.defaultProps = {
   brandName: "야생의 숨결",
   action: (
-    <Link to="./SignUp">
-      <Button variant="gradient" size="sm" fullWidth >
-        회원가입
-      </Button>
-    </Link>
+    <Link to="./Mypage">
+<div>
+  </div>    
+   </Link>
   ),
 };
 

@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Footer, Navbar } from "@/widgets/layout";
-import routes from "@/routes";
-import FestivalDetail from "./components/festivalcom/FestivalDetail";
+import routes from "@/router/routes";
+import AuthProvider from "./context/AuthProvider";
+import HttpHeadersProvider from "./context/HttpHeadersProvider";
 
 
 function App() {
@@ -9,6 +10,8 @@ function App() {
 
   return (
     <>
+            <AuthProvider>
+          <HttpHeadersProvider>
       {
         <div className="container absolute left-2/4 z-50 mx-auto -translate-x-2/4 p-1 h-16">
           <Navbar routes={routes} />
@@ -30,6 +33,8 @@ function App() {
         </div>
       
       }
+                </HttpHeadersProvider>
+        </AuthProvider>
     </>
   );
 }
