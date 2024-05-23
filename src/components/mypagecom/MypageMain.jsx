@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Left from './MypageLeft';
-import Profile from './Profile';
+import Profile from './Profile_backup';
 import Favorite from './Favorite';
 import ReviewList from './ReviewList';
+import MyReviewList from '../reviewcom/MyReviewList';
+import SignUpForm from './Profile';
 
 const MypageMain = () => {
     const [pageId, setPageId] = useState('profile');
@@ -18,10 +20,11 @@ const MypageMain = () => {
                     <Left onButtonClick={handleButtonClick}/>
                 </div>
                 {/* 오른쪽 */}
-                <div className='col-span-3 p-6 text-center rounded-md shadow-md'>
-                    {pageId === 'profile' && <Profile />}
+                <div className='col-span-3 text-center rounded-md shadow-md'>
+                    {pageId === 'profile' && <SignUpForm />}
+                    {/* {pageId === 'profile' && <Profile />} */}
                     {pageId === 'favorite' && <Favorite />}
-                    {pageId === 'review' && <ReviewList />}
+                    {pageId === 'review' && <MyReviewList />}
                 </div>
             </div>
        </div>

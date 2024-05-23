@@ -1,9 +1,12 @@
 import React from 'react';
-import FestivalDetail from '@/components/festivalcom/FestivalDetail';
+import Recommend from '@/pages/recommend/recommend';
 
-const routes4 = [
-
+const routes3 = [
+    {
+        path: "/recommend/:selectedStartDate/:selectedEndDate",
+        element: <Recommend />,
+    },
   
 ];
 
-export default routes4;
+export default routes3;

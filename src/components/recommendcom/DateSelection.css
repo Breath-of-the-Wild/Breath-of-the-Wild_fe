@@ -41,11 +41,21 @@
 .rdtPicker {
   border: 1px solid #e0e2e7 !important;
   border-radius: 10px !important;
+  color: black;
+}
+
+td.rdtDay {
+  color: black;
 }
 
 td.rdtToday {
-  border: 1px solid #428bca !important;
-  
+  border: 1px solid green !important;
+  border-radius: 50px !important;
+  color: black !important;
+}
+
+th.dow {
+  color: black !important;
 }
 
 td.rdtToday::before {

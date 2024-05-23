@@ -4,7 +4,8 @@ import './Top.css'
 import {
     Typography,
   } from "@material-tailwind/react";
-import Search from '../camp/Search';
+import Search from './Search';
+
 
 
 const Top = () => {
@@ -46,9 +47,7 @@ const Top = () => {
   }, []); // 처음 한 번만 실행하도록 빈 배열을 두 번째 인수로 전달합니다.
     return (
       
-           
-                 <div className=" ml-auto mr-auto w-full h-6/6 px-4 text-center slideshow ">
-         
+      <div className=" ml-auto mr-auto w-full h-6/6 px-4 text-center slideshow ">
       <div className="relative  h-screen content-center items-center justify-center pt-16 pb-32  inset-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center">
      
         
@@ -57,15 +56,14 @@ const Top = () => {
             <Typography
                 variant="h1"
                 color="white"
-                className="mb-6 font-White"
+                className="mb-10 font-White"
               >
                             당신만을 위한<br />전국의 모든 {'\n'}
                             <span className="underline">
                             <span ref={typedContainer} className="typed-words"></span>
               </span>
               </Typography>
-      <Search />
-
+              <Search/>
             </div>
           </div>
         </div>

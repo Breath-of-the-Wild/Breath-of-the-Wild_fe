@@ -2,7 +2,7 @@ import Mypage from '@/pages/mypage/mypage';
 import RecommendList from '@/pages/recommend/recommendList';
 import React from 'react';
 
-const routes3 = [
+const routes2 = [
 
     {
         id: 31,
@@ -17,4 +17,4 @@ const routes3 = [
   
 ];
 
-export default routes3;
+export default routes2;
