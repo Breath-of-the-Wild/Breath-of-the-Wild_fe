@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Typography } from '@material-tailwind/react';
 
 const Accordion = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,14 +11,20 @@ const Accordion = ({ title, children }) => {
 
   return (
     <div className="block mt-4 max-w-4xl mx-auto p-8 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
-      <div className="cursor-pointer p-4 " onClick={toggleAccordion}>
-        <h1 className="text-3xl font-extrabold whitespace-nowrap ">
+      <div className="cursor-pointer p-2 " onClick={toggleAccordion}>
+        <Typography
+        variant='h3'>
           {title}
-        </h1>
-        <p className="text-sm text-gray-400 mt-3 whitespace-nowrap">이 곳을 클릭해주세요.</p>
+        </Typography>
+        <Typography
+        variant='h6'
+        color='gray'
+        className='py-3'>
+          이 곳을 클릭해주세요.
+        </Typography>
       </div>
       {isOpen && (
-        <div className="p-4">
+        <div className="p-2">
           {children}
         </div>
       )}
@@ -78,7 +85,7 @@ const ReviewWrite = ( {contentId} ) => {
         // 리뷰 데이터 전송
         const response = await axios.post('http://localhost:8080/api/reviews/create', reviewData);
         console.log('Review submitted:', response.data);
-        // 성공 메시지 표시 또는 폼 초기화 등의 후속 조치
+        window.location.reload()
       } catch (error) {
         console.error('There was an error!', error);
       }
@@ -97,12 +104,12 @@ const ReviewWrite = ( {contentId} ) => {
           placeholder='제목'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
+          className="w-full rounded-md py-2.5 px-4 border text-sm outline-green-500"
         />
         <input
           type="file"
           onChange={handleImageChange}
-          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
+          className="w-full rounded-md py-2.5 px-4 border text-sm outline-green-500"
         />
         <div className="justify-self-end">
           {previewImage && (
@@ -120,12 +127,12 @@ const ReviewWrite = ( {contentId} ) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
-          className="w-full rounded-md px-4 border text-sm pt-2.5 outline-[#007bff]"
+          className="w-full rounded-md px-4 border text-sm pt-2.5 outline-green-500"
         />
         <button
           type="button"
           onClick={handleSubmit}
-          className="text-white bg-[#171717] hover:bg-blue-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full"
+          className="text-white bg-green-200 hover:bg-green-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full"
         >
           리뷰 작성
         </button>

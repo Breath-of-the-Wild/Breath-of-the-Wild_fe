@@ -4,7 +4,6 @@ import axios from 'axios';
 import RegionMapping from '@/data/RegionMapping';
 
 const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
-
   const [selectedArea, setSelectedArea] = useState(null);
   const [rankedRegions, setRankedRegions] = useState([]);
 
@@ -41,6 +40,7 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
   };
 
   useEffect(() => {
+    if (rankedRegions.length === 0) return;
 
     let data = geojson.features;
 
@@ -50,7 +50,6 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
     document.head.appendChild(script);
 
     script.onload = () => {
-
       const mapContainer = document.getElementById('pollution-map');
       const mapOption = {
         center: new kakao.maps.LatLng(35.76732900792388,127.96189115993688),
@@ -60,8 +59,6 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
 
       const map = new kakao.maps.Map(mapContainer, mapOption);
       const infowindow = new kakao.maps.InfoWindow({ removable: true });
-
-      let pollution = [];
 
       const displayArea = (coordinates, name, fillColor) => {
         let path = [];
@@ -109,51 +106,51 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
           let fillColor;
 
           if (name.includes('경기') || name.includes('서울') || name.includes('인천')) {
-            if (rankedRegions[0].includes('서울') || rankedRegions[1].includes('서울')) {
+            if (rankedRegions[0]?.includes('서울') || rankedRegions[1]?.includes('서울')) {
               fillColor = colors.first;
-            } else if (rankedRegions[2].includes('서울') || rankedRegions[3].includes('서울')) {
+            } else if (rankedRegions[2]?.includes('서울') || rankedRegions[3]?.includes('서울')) {
               fillColor = colors.second;
-            } else if (rankedRegions[4].includes('서울') || rankedRegions[5].includes('서울')) {
+            } else if (rankedRegions[4]?.includes('서울') || rankedRegions[5]?.includes('서울')) {
               fillColor = colors.third;
             }
           } else if (name.includes('제주')) {
-            if (rankedRegions[0].includes('제주') || rankedRegions[1].includes('제주')) {
+            if (rankedRegions[0]?.includes('제주') || rankedRegions[1]?.includes('제주')) {
               fillColor = colors.first;
-            } else if (rankedRegions[2].includes('제주') || rankedRegions[3].includes('제주')) {
+            } else if (rankedRegions[2]?.includes('제주') || rankedRegions[3]?.includes('제주')) {
               fillColor = colors.second;
-            } else if (rankedRegions[4].includes('제주') || rankedRegions[5].includes('제주')) {
+            } else if (rankedRegions[4]?.includes('제주') || rankedRegions[5]?.includes('제주')) {
               fillColor = colors.third;
             }
           } else if (name.includes('경남') || name.includes('대구') || name.includes('경북') || name.includes('부산') || name.includes('울산')) {
-            if (rankedRegions[0].includes('경상') || rankedRegions[1].includes('경상')) {
+            if (rankedRegions[0]?.includes('경상') || rankedRegions[1]?.includes('경상')) {
               fillColor = colors.first;
-            } else if (rankedRegions[2].includes('경상') || rankedRegions[3].includes('경상')) {
+            } else if (rankedRegions[2]?.includes('경상') || rankedRegions[3]?.includes('경상')) {
               fillColor = colors.second;
-            } else if (rankedRegions[4].includes('경상') || rankedRegions[5].includes('경상')) {
+            } else if (rankedRegions[4]?.includes('경상') || rankedRegions[5]?.includes('경상')) {
               fillColor = colors.third;
             }
           } else if (name.includes('전남') || name.includes('광주') || name.includes('전북')) {
-            if (rankedRegions[0].includes('전라') || rankedRegions[1].includes('전라')) {
+            if (rankedRegions[0]?.includes('전라') || rankedRegions[1]?.includes('전라')) {
               fillColor = colors.first;
-            } else if (rankedRegions[2].includes('전라') || rankedRegions[3].includes('전라')) {
+            } else if (rankedRegions[2]?.includes('전라') || rankedRegions[3]?.includes('전라')) {
               fillColor = colors.second;
-            } else if (rankedRegions[4].includes('전라') || rankedRegions[5].includes('전라')) {
+            } else if (rankedRegions[4]?.includes('전라') || rankedRegions[5]?.includes('전라')) {
               fillColor = colors.third;
             }
           } else if (name.includes('충남') || name.includes('세종') || name.includes('대전') || name.includes('충북')) {
-            if (rankedRegions[0].includes('충청') || rankedRegions[1].includes('충청')) {
+            if (rankedRegions[0]?.includes('충청') || rankedRegions[1]?.includes('충청')) {
               fillColor = colors.first;
-            } else if (rankedRegions[2].includes('충청') || rankedRegions[3].includes('충청')) {
+            } else if (rankedRegions[2]?.includes('충청') || rankedRegions[3]?.includes('충청')) {
               fillColor = colors.second;
-            } else if (rankedRegions[4].includes('충청') || rankedRegions[5].includes('충청')) {
+            } else if (rankedRegions[4]?.includes('충청') || rankedRegions[5]?.includes('충청')) {
               fillColor = colors.third;
             }
           } else if (name.includes('강원')) {
-            if (rankedRegions[0].includes('강원') || rankedRegions[1].includes('강원')) {
+            if (rankedRegions[0]?.includes('강원') || rankedRegions[1]?.includes('강원')) {
               fillColor = colors.first;
-            } else if (rankedRegions[2].includes('강원') || rankedRegions[3].includes('강원')) {
+            } else if (rankedRegions[2]?.includes('강원') || rankedRegions[3]?.includes('강원')) {
               fillColor = colors.second;
-            } else if (rankedRegions[4].includes('강원') || rankedRegions[5].includes('강원')) {
+            } else if (rankedRegions[4]?.includes('강원') || rankedRegions[5]?.includes('강원')) {
               fillColor = colors.third;
             }
           }
@@ -161,13 +158,20 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
           displayArea(coordinates, name, fillColor);
         });
       };
+
       updateMap();
+    };
+
+    return () => {
+      if (script) {
+        document.head.removeChild(script);
+      }
     };
   }, [rankedRegions]);
 
   return (
     <div id='total'>
-      <div id="pollution-map" style={{ width: '100%', height: '550px' }} />
+      <div id="pollution-map" className="rounded-xl shadow-xl" style={{ width: '100%', height: '550px' }} />
       {/* <div>
         <h2>Recommended Regions</h2>
         <ol>

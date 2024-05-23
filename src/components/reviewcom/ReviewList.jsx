@@ -61,9 +61,9 @@ const ReviewList = ( {contentId} ) => {
         </div>
         
         <div className="flex justify-center mt-6">
-          <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md focus:outline-none">이전</button>
+          <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-green-500 text-white rounded-md focus:outline-none">이전</button>
 
-          <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none">다음</button>
+          <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-green-500 text-white rounded-md focus:outline-none">다음</button>
     
         
         </div>

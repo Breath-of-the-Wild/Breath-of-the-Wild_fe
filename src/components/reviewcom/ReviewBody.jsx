@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ImageDisplay from './ImageDIsplay';
+import ReviewCard from './ReviewCard';
 
 const ReviewBody =() => {
   const [reviewData, setreviewData] = useState([]);
@@ -46,19 +47,13 @@ const ReviewBody =() => {
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
             <div className="mt-5 grid grid-cols-3 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {getCurrentPageItems().map((review) => (
-            <div classname="p-5">
-                <ImageDisplay fileName={review.imageFile} />
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{review.title}</h5>
-          
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{review.content} </p>
-             
-            </div>
+              <ReviewCard review={review} />
         ))}
 
             </div>
             <div className="flex justify-center mt-6">
-            <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md focus:outline-none">이전</button>
-            <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none">다음</button>
+            <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-green-500 text-white rounded-md focus:outline-none">이전</button>
+            <button onClick={nextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-green-500 text-white rounded-md focus:outline-none">다음</button>
           </div>
         </div>
 

@@ -3,13 +3,15 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaTag, FaRegHeart } from "react-icons/fa";
 import { RiComputerFill } from "react-icons/ri";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaLocationDot, FaPhone } from "react-icons/fa6";
 import { Typography } from '@material-tailwind/react';
 import Top from "@/components/top/Top";
 import MapMarker from '@/components/mapcom/MapMarker';
 import SearchF from '@/components/mapcom/SearchF';
 import ReviewWrite from '@/components/reviewcom/ReviewWrite';
 import ReviewList from '@/components/reviewcom/ReviewList';
+import CampLikeButton from '@/components/camp/CampLikeButton';
+import './CampLikeButton.css';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -62,7 +64,7 @@ const MapReadPage = () => {
     } else{
       return <li>{data}</li>;
     }
-  }
+  };
   
 
   return (
@@ -70,7 +72,7 @@ const MapReadPage = () => {
       <Top title='mapread' />
       <div className="bg-white">
         {/* 사진 */}
-        <div className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-5">
           <img
             src={campingData.firstImageUrl ? campingData.firstImageUrl : "img/camp/camp.jpg"}
             className="h-full w-full object-cover object-center"
@@ -110,12 +112,13 @@ const MapReadPage = () => {
             </div>
             <div className="mt-4 flex text-center">
               <h3 className="sr-only">Number</h3>
+              <FaPhone color='green'/>
               <p className='pl-2'>{campingData.tel}</p>
             </div>
             <div className="mt-4 flex text-center">
               <h3 className="sr-only">Website</h3>
               <RiComputerFill color='green'/>
-              <p className='pl-2'><a href={campingData.homepage}>{campingData.homepage}</a></p>
+              <p className='pl-2 overflow-x-auto'><a href={campingData.homepage}>{campingData.homepage}</a></p>
             </div>
          
               <div className="mt-10">
@@ -128,23 +131,17 @@ const MapReadPage = () => {
                 </div>
               </div>
 
-              <div className='mt-10 grid grid-cols-2 gap-3'>
+              <div className='mt-10 grid grid-cols-2 gap-3 mb-10'>
                 <div
-                  className="w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                  <a href={campingData.homepage}>예약하러가기</a>
+                  className="w-full text-center items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                  <a href={campingData.homepage} className='w-full'>예약하러가기</a>
                 </div>
-                <button 
-                  className='flex w-full items-center justify-center font-medium rounded-md shadow-md hover:bg-blue-gray-50'
-                  onClick={handleLike}
-                  disabled={isLiked}
-                >
-                  <FaRegHeart />
-                  <p className='p-2'>{isLiked ? '찜 완료' : '찜하기'}</p>
-                </button>
-
-                <ReviewList contentId={contentId} />
+                  <div className='flex w-full items-center justify-center font-medium rounded-md shadow-md hover:bg-blue-gray-50 hover:cursor-pointer'>
+                  <CampLikeButton campId={contentId} memberemail={email} />
+                  </div>
                 
               </div>
+              <ReviewList contentId={contentId} />
               <ReviewWrite contentId={contentId} />
      
           </div>

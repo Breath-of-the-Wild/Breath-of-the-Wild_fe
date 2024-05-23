@@ -107,7 +107,7 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
   };
 
   return (
-    <div className="-z-10 max-h-[550px] overflow-y-scroll over">
+    <div className="-z-10 max-h-[550px] overflow-y-scroll over rounded-xl shadow-xl">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 -z-10">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
