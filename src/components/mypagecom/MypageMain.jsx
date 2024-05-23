@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Left from './MypageLeft';
-import Profile from './Profile';
+import Profile from './Profile_backup';
 import Favorite from './Favorite';
 import ReviewList from './ReviewList';
 import MyReviewList from '../reviewcom/MyReviewList';
-import SignUpForm from './SignUpForm';
+import SignUpForm from './Profile';
 
 const MypageMain = () => {
     const [pageId, setPageId] = useState('profile');
