@@ -69,7 +69,7 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
       console.log(formattedStartDate);
       console.log(formattedEndDate);
 
-      const response = await axios.post('http://localhost:8080/api/weather/list', {
+      const response = await axios.post('http://3.34.167.72:8080/api/weather/list', {
         startDate: formattedStartDate,
         endDate: formattedEndDate,
       });
