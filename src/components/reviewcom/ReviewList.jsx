@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ImageDisplay from './ImageDisplay';
+import ImageDisplay1 from './ImageDisplay1';
+
 
 
 const ReviewList = ({ contentId }) => {
@@ -53,7 +54,7 @@ const ReviewList = ({ contentId }) => {
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         {getCurrentPageItems().map((review) => (
           <div key={review.reviewId} className="p-5">
-            <ImageDisplay fileName={review.imageFile} />
+            <ImageDisplay1 fileName={review.imageFile} />
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {truncateText(review.title, 11)}
             </h5>
