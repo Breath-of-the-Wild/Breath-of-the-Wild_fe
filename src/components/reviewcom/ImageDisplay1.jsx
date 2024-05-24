@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ImageDisplay = ({ fileName }) => {
+const ImageDisplay1 = ({ fileName }) => {
     const [imageSrc, setImageSrc] = useState(null);
 
     useEffect(() => {
@@ -37,4 +37,4 @@ const ImageDisplay = ({ fileName }) => {
     );
 };
 
-export default ImageDisplay;
+export default ImageDisplay1;

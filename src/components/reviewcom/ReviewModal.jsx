@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './ReviewModal.css';
-import ImageDisplay from './ImageDisplay';
+import ImageDisplay1 from './ImageDisplay1';
 import { Typography } from '@material-tailwind/react';
 
 const ReviewModal = ({ isOpen, onClose, review }) => {
@@ -17,7 +17,7 @@ const ReviewModal = ({ isOpen, onClose, review }) => {
     <div className="modal-overlay" onClick={handleBackgroundClick}>
         <div className="modal grid grid-cols-2 gap-5 p-10">
           <div className='col border-r pr-10'>
-          <ImageDisplay fileName={review.imageFile} />
+          <ImageDisplay1 fileName={review.imageFile} />
           </div>
           
           <div className='col grid grid-rows-5'>
