@@ -7,7 +7,7 @@ const MyReviewList = () => {
   const [selectedReview, setSelectedReview] = useState(null);
   const [reviewData, setReviewData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3); // 페이지당 항목 수
+  const [itemsPerPage] = useState(6); // 페이지당 항목 수
   const emails = localStorage.getItem('id');
 
   const openModal = (review) => {
@@ -58,6 +58,31 @@ const MyReviewList = () => {
     return reviewData.slice(startIndex, endIndex);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return date.toLocaleDateString(undefined, options).replace(/(\d{2}:\d{2}):\d{2}/, '$1');
+  };
+
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + '...';
+    }
+    return text;
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   return (
     <div>
       <table className='w-full'>
@@ -65,7 +90,7 @@ const MyReviewList = () => {
           <tr>
             <th className='py-2'>제목</th>
             <th className='py-2'>내용</th>
-            <th className='py-2'>날짜</th>
+            <th className='py-2'>작성날짜</th>
             <th className='py-2'>삭제</th>
           </tr>
         </thead>
@@ -73,13 +98,13 @@ const MyReviewList = () => {
           {getCurrentPageItems().map((review) => (
             <tr key={review.reviewId} className='border-b'>
               <td className='py-2 hover:cursor-pointer' onClick={() => openModal(review)}>
-                {review.title}
+                {truncateText(review.title, 14)}
               </td>
               <td className='py-2 hover:cursor-pointer' onClick={() => openModal(review)}>
-                {review.content}
+                {truncateText(review.content, 23)}
               </td>
               <td className='py-2'>
-                {review.createdDate}
+                {formatDate(review.createdDate)}
               </td>
               <td className='py-2'>
                 <button
@@ -93,6 +118,33 @@ const MyReviewList = () => {
           ))}
         </tbody>
       </table>
+
+      <div className='flex justify-center items-center mt-4'>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className='px-4 py-2 mx-1 bg-gray-300 rounded disabled:bg-gray-200'
+        >
+          이전
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 mx-1 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className='px-4 py-2 mx-1 bg-gray-300 rounded disabled:bg-gray-200'
+        >
+          다음
+        </button>
+      </div>
+
       {selectedReview && (
         <ReviewModal
           isOpen={isModalOpen}

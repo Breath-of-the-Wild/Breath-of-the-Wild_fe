@@ -24,9 +24,16 @@ const ImageDisplay = ({ fileName }) => {
     }, [fileName]);
 
     return (
-        <div>
-            {imageSrc ? <img src={imageSrc} alt={fileName} /> : <p><img src="/img/camp/camp1.jpg" /></p>}
-        </div>
+<div>
+  {imageSrc ? (
+    <img src={imageSrc} alt={fileName} style={{ width: '300px', height: '300px' }} />
+  ) : (
+    <p>
+      <img src="/img/camp/camp1.jpg" style={{ width: '300px', height: '300px' }} />
+    </p>
+  )}
+</div>
+
     );
 };
 

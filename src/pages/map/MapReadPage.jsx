@@ -65,7 +65,6 @@ const MapReadPage = () => {
       return <li>{data}</li>;
     }
   };
-  
 
   return (
     <div>
@@ -83,7 +82,7 @@ const MapReadPage = () => {
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <Typography variant='h2'>
-              {campingData.facltNm}
+              {campingData.facltNm || "캠핑장 이름이 없습니다"}
             </Typography>
           </div>
           <div className="mt-4 lg:row-span-3 lg:mt-0">
@@ -91,13 +90,13 @@ const MapReadPage = () => {
               <div className='flex text-center'>
                 <FaTag color='green'/>
                 <Typography variant='h4' color='gray'>
-                  {campingData.induty}
+                  {campingData.induty || "산업군 정보가 없습니다"}
                 </Typography>
               </div>
               <div className='flex text-center'>
                 <FaTag color='green'/>
                 <Typography variant='h4' color='gray'>
-                  {campingData.lctCl}
+                  {campingData.lctCl || "위치 정보가 없습니다"}
                 </Typography>
               </div>
             </div>
@@ -108,48 +107,56 @@ const MapReadPage = () => {
             <div className="mt-10 flex text-center">
               <h3 className="sr-only">Address</h3>
               <FaLocationDot color='green'/>
-              <p className='pl-2'>{campingData.addr1}</p>
+              <p className='pl-2'>{campingData.addr1 || "주소 정보가 없습니다"}</p>
             </div>
             <div className="mt-4 flex text-center">
               <h3 className="sr-only">Number</h3>
               <FaPhone color='green'/>
-              <p className='pl-2'>{campingData.tel}</p>
+              <p className='pl-2'>{campingData.tel || "전화번호 정보가 없습니다"}</p>
             </div>
             <div className="mt-4 flex text-center">
               <h3 className="sr-only">Website</h3>
               <RiComputerFill color='green'/>
-              <p className='pl-2 overflow-x-auto'><a href={campingData.homepage}>{campingData.homepage}</a></p>
+              <p className='pl-2 overflow-x-auto'>
+                <a href={campingData.homepage || "#"}>{campingData.homepage || "웹사이트 정보가 없습니다"}</a>
+              </p>
             </div>
          
-              <div className="mt-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-900">세부사항</h3>
-                </div>
-                <div className="mt-4 grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                  <span className="text-gray-600">{campingData.manageSttus}</span>
-                  {/* Add other details here */}
-                </div>
+            <div className="mt-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium text-gray-900">캠핑장 현황</h3>
               </div>
-
-              <div className='mt-10 grid grid-cols-2 gap-3 mb-10'>
-                <div
-                  className="w-full text-center items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                  <a href={campingData.homepage} className='w-full'>예약하러가기</a>
-                </div>
-                  <div className='flex w-full items-center justify-center font-medium rounded-md shadow-md hover:bg-blue-gray-50 hover:cursor-pointer'>
-                  <CampLikeButton campId={contentId} memberemail={email} />
-                  </div>
-                
+              <div className="mt-4 grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
+                <span className="text-gray-600">{campingData.manageSttus || "관리 상태 정보가 없습니다"}</span>
+                {/* Add other details here */}
               </div>
-              <ReviewList contentId={contentId} />
-              <ReviewWrite contentId={contentId} />
-     
+            </div>
+           
+            <div className='mt-10 grid grid-cols-2 gap-3 mb-10'>
+              <div
+                className="w-full text-center items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+              {
+              (campingData.resve_url || campingData.homepage) ? (
+                <a href={campingData.resve_url || campingData.homepage}>
+                  <div className='w-full'>예약하러가기</div>
+                </a>
+              ) : (
+                <div className='w-full'>예약 홈페이지가 없습니다</div>
+              )
+            }
+              </div>
+              <div className='flex w-full items-center justify-center font-medium rounded-md shadow-md hover:bg-blue-gray-50 hover:cursor-pointer'>
+                <CampLikeButton campId={contentId} memberemail={email} />
+              </div>
+            </div>
+            <ReviewList contentId={contentId} />
+            <ReviewWrite contentId={contentId} />
           </div>
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
             <div>
               <h3 className="sr-only">LineIntro</h3>
               <Typography variant='h4' color='green'>
-                {campingData.lineIntro}
+                {campingData.lineIntro || "간략한 소개가 없습니다"}
               </Typography>
             </div>
             <hr className='my-10'/>
@@ -159,7 +166,7 @@ const MapReadPage = () => {
                 캠핑장 소개
               </Typography>
               <div className="space-y-6 p-6 border-2 border-gray-100 rounded-lg">
-                {campingData.intro}
+                {campingData.intro || "캠핑장 소개가 없습니다"}
               </div>
             </div>
             <hr className='my-10'/>
@@ -168,7 +175,7 @@ const MapReadPage = () => {
                 특징
               </Typography>
               <div className="mt-4">
-                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+              <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
                   <ConditionalLi data={campingData.glampInnerFclty} />
                   <ConditionalLi data={campingData.caravInnerFclty} />
                   <ConditionalLi data={campingData.operPdCl} />
@@ -190,8 +197,12 @@ const MapReadPage = () => {
                 지도
               </Typography>
               <div className="mt-4 space-y-6">
-                <MapMarker latitude={campingData.mapY} longitude={campingData.mapX}/>
-                <p>{campingData.addr1}</p>
+                {campingData.mapY && campingData.mapX ? (
+                  <MapMarker latitude={campingData.mapY} longitude={campingData.mapX}/>
+                ) : (
+                  <p>지도 정보가 없습니다</p>
+                )}
+                <p>{campingData.addr1 || "주소 정보가 없습니다"}</p>
               </div>
             </div>
             <hr className='my-10'/>
@@ -204,7 +215,7 @@ const MapReadPage = () => {
                 주변 관광지 및 지역 축제
               </Typography>
               <div>
-                <SearchF searchData={campingData.sigunguNm}/>
+                <SearchF searchData={campingData.sigunguNm || "정보가 없습니다"}/>
               </div>
             </div>
           </div>
