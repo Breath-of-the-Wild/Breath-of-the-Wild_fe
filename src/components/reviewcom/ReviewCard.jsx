@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReviewModal from './ReviewModal';
-import ImageDisplay1 from './ImageDisplay1';
+import ImageDisplay1 from './ImageDisplay.jsx';
 
 const ReviewCard = ({review}) =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
