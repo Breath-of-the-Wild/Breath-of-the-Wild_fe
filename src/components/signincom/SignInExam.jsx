@@ -178,10 +178,10 @@ const onKakaoLogin = () => {
                 </svg>
                 <span>구글 계정으로 로그인</span>
               </Button>
-              <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onKakaoLogin}>
+              {/* <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onKakaoLogin}>
                 <img src="/img/icon/kakaologo.png" height={24} width={24} alt="" />
                 <span>카카오 계정으로 로그인</span>
-              </Button>
+              </Button> */}
       </div>
       <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
         아이디가 없으신가요?

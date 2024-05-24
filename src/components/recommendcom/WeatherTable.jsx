@@ -154,3 +154,4 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
 }
 
 export default WeatherTable;
+

@@ -5,7 +5,6 @@ import UserLikedCamps from '../camp/UserLikedCamp';
 import SignupForm from './Profile';
 
 const MypageMain = () => {
-    const email = localStorage.getItem("id");     
     const [pageId, setPageId] = useState('profile');
     const handleButtonClick = (id) => {
         setPageId(id);

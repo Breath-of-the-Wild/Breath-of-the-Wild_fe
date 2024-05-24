@@ -8,7 +8,7 @@ import CampCard from '../camp/CampCard';
 const CampList = ({ area }) => {
   const [campingData, setCampingData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(20);
+  const [itemsPerPage] = useState(21);
   const [selectedNature, setSelectedNature] = useState("");
   const [selectedInduty, setSelectedInduty] = useState("");
 

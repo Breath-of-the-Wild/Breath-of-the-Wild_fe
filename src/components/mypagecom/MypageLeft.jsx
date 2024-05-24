@@ -3,7 +3,7 @@ import React from "react";
 import { IoPersonCircleSharp } from "react-icons/io5";
 
 const Left = ({ onButtonClick }) => {
-    const email = localStorage.getItem("id");
+    const username = localStorage.getItem("username");
     return(
         <div>
             {/* 사용자 정보 */}
@@ -22,7 +22,7 @@ const Left = ({ onButtonClick }) => {
                         color='gray'
                         className="overflow-visible"
                     >
-                    {email} 님 환영합니다. 
+                    {username} 님 환영합니다. 
                     </Typography>
                 </div>
             </div>

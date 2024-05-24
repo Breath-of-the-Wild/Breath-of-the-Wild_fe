@@ -18,7 +18,7 @@ const Search = ({ onDateChange }) => {
   };
 
   return (
-    <div className="border-2 border-white rounded-md shadow w-1/3 mx-auto grid grid-cols-6 p-5 relative z-50 your-element text-white gap-0">
+    <div className="border-2 border-white rounded-md shadow w-1/3 mx-auto grid grid-cols-6 p-5  relative z-50 your-element text-white gap-0">
       <div className="col-span-2 z-0 border-2 rounded-md p-2 text-center homeSerch">
         <DateSelection onSelectDate={handleDateChange} label="selectedStartDate" />
       </div>
