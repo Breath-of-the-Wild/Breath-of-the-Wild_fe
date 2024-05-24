@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ImageDisplay from './ImageDIsplay';
+import ImageDisplay from './ImageDisplay';
 import ReviewCard from './ReviewCard';
 
 const ReviewBody =() => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './ReviewModal.css';
-import ImageDisplay from './ImageDIsplay';
+import ImageDisplay from './ImageDisplay';
 import { Typography } from '@material-tailwind/react';
 
 const ReviewModal = ({ isOpen, onClose, review }) => {

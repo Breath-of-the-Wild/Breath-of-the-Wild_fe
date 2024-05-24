@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ImageDisplay from './ImageDIsplay';
+import ImageDisplay from './ImageDisplay';
 import ReviewModal from './ReviewModal';
 
 const ReviewCard = ({review}) =>{
