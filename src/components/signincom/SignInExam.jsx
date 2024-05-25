@@ -76,7 +76,7 @@ const SignInexam = () => {
   }
 
   // const onNaverLogin = () => {
-  //   window.location.href = "https://breathofthewildtest-348214722.ap-northeast-2.elb.amazonaws.com:8080/oauth2/authorization/naver"
+  //   window.location.href = "http://localhost:8080/oauth2/authorization/naver"
   // }
 
   const onGoogleLogin = () => {
@@ -84,7 +84,7 @@ const SignInexam = () => {
   }
 
   // const onKakaoLogin = () => {
-  //   window.location.href = "https://breathofthewildtest-348214722.ap-northeast-2.elb.amazonaws.com:8080oauth2/authorization/kakao"
+  //   window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
   // }
 
   return (

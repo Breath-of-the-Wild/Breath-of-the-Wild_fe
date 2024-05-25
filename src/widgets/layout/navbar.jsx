@@ -15,9 +15,9 @@ export function Navbar({ brandName, routes, action }) {
   const [username, setUsername] = useState(null);
   const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
-
+  const token = Cookies.get("access_token");
   useEffect(() => {
-    const token = Cookies.get("access_token");
+
     if (token) {
       try {
         const currentTime = Math.floor(Date.now() / 1000);
@@ -38,7 +38,7 @@ export function Navbar({ brandName, routes, action }) {
   }, [navigate]);
 
   // 값이 null이면 로그인 버튼, 아니면 로그아웃 버튼 출력
-  const buttonContent = username ? (
+  const buttonContent = token ? (
     <div className="flex gap-3">
       <Typography variant="h6" className="my-auto">
         {username} 님
