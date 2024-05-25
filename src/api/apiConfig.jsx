@@ -31,4 +31,5 @@ export const API_URLS = {
     REVIEW_GET_CONTENTID: `${BASE_URL}/api/reviews/content`,
     REVIEW_DELETE: `${BASE_URL}/api/reviews/delete`,
     WEATHER_GET: `${BASE_URL}/api/weather/abc1`,
+    
 };
