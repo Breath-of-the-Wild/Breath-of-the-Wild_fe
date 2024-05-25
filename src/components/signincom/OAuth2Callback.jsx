@@ -17,10 +17,11 @@ const OAuth2Callback = () => {
     };
 
     const access_token = getCookieValue('access_token');
+    const refresh_token = getCookieValue('refresh_token');
     const name = getCookieValue('name');
     const email = getCookieValue('email');
 
-    if (access_token && name && email) {
+    if (access_token && refresh_token && name && email) {
       localStorage.setItem('username', name);
       localStorage.setItem('id', email);
 
