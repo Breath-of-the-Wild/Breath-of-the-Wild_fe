@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ImageDisplay1 from './ImageDisplay.jsx';
+import ImageDisplay1 from './ImageDisplay1';
 import { API_URLS } from '@/api/apiConfig.jsx';
 
 
