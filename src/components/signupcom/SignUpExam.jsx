@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { API_URLS } from '@/api/apiConfig';
 
 const SignUpExam = () => {
 
@@ -47,7 +48,7 @@ const SignUpExam = () => {
   /* 아이디 중복 체크 */
   const checkEmailDuplicate = async () => {
     await axios
-      .get("http://localhost:8080/api/member/checkId", { params: { email: email } })
+      .get(API_URLS.MEMBER_CHECKID, { params: { email: email } })
       .then((resp) => {
         console.log("[Join.js] checkEmailDuplicate() success :D");
         console.log(resp.data);
@@ -114,7 +115,7 @@ const SignUpExam = () => {
     };
 
     await axios
-      .post("http://localhost:8080/api/member/register", req)
+      .post(API_URLS.MEMBER_CREATE, req)
       .then((resp) => {
         console.log("[Join.js] join() success :D");
         console.log(resp.data);

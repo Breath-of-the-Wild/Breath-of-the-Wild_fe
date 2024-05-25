@@ -4,6 +4,7 @@ import { Typography } from '@material-tailwind/react';
 import FilterComponent from './FilterComponent';
 import '../mapcom/CampList.css';
 import CampCard from './CampCard';
+import { API_URLS } from '@/api/apiConfig';
 
 const CampSearchList = ({ searchType, searchValue }) => {
     const [campingData, setCampingData] = useState([]);
@@ -15,7 +16,7 @@ const CampSearchList = ({ searchType, searchValue }) => {
     useEffect(() => {
         const fetchCampings = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/camping/search', {
+                const response = await axios.get(API_URLS.CAMP_SEARCH, {
                     params: { searchType, searchValue },
                 });
                 setCampingData(response.data);

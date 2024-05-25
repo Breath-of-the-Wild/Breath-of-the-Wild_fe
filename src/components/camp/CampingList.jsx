@@ -5,6 +5,7 @@ import { Typography } from '@material-tailwind/react';
 import FilterComponent from './FilterComponent';
 import '../mapcom/CampList.css';
 import CampCard from './CampCard';
+import { API_URLS } from '@/api/apiConfig';
 
 const CampingList = () => {
   const [campingData, setCampingData] = useState([]);
@@ -16,7 +17,7 @@ const CampingList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/camping/all');
+        const response = await axios.get(API_URLS.CAMPING_ALL);
         if (response.data) {
           setCampingData(response.data);
         } else {

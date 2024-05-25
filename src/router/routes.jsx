@@ -1,7 +1,6 @@
 // routes.js 파일
 import React, { Component } from 'react';
 import Recommend from "../pages/recommend/recommend";
-import Help from "../pages/help/help";
 import Festival from '@/pages/festival/festival';
 
 import Home from '@/pages/home/home';
@@ -16,24 +15,20 @@ import MapListPage from '@/pages/map/MapListPage';
 
 const routes = [
   {
-    id: 1,
     path: "/home",
     element: <Home />,
   },
   {
-    id: 2,
     name: "캠핑장 추천",
     path: "/recommend",
     element: <Recommend />,
   },
   {
-    id: 6,
     name: "캠핑장",
     path: "/MapListPage",
     element: <MapListPage />,
   },
   {
-    id: 3,
     name: "축제 정보",
     path: "/festival",
     element: <Festival />,
@@ -41,16 +36,11 @@ const routes = [
 },
 
   {
-    id: 5,
     name: "리뷰게시판",
     path: "/review",
     element: <Review />,
   },
-  {
-    id: 4,
-    path: "/help",
-    element: <Help />,
-  },
+
 
   ...routes1, // routes1 배열을 routes 배열에 병합
   ...routes2,

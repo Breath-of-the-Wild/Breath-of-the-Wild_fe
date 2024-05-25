@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Typography } from '@material-tailwind/react';
+import { API_URLS } from '@/api/apiConfig';
 
 const Accordion = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,8 +39,14 @@ const ReviewWrite = ({ contentId }) => {
   const [createdBy] = useState(username);
   const [email] = useState(emails);
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > MAX_FILE_SIZE) {
+      alert('이미지 파일 크기는 5MB를 초과할 수 없습니다.');
+      return;
+    }
     setImage(file);
 
     const reader = new FileReader();
@@ -72,7 +79,7 @@ const ReviewWrite = ({ contentId }) => {
 
     try {
       // 이미지 업로드 요청
-      const uploadResponse = await axios.post('http://localhost:8080/api/images/upload', formData, {
+      const uploadResponse = await axios.post(API_URLS.IMAGE_UPLOAD, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -90,7 +97,7 @@ const ReviewWrite = ({ contentId }) => {
       };
 
       // 리뷰 데이터 전송
-      const response = await axios.post('http://localhost:8080/api/reviews/create', reviewData);
+      const response = await axios.post(API_URLS.REVIEW_CREATE, reviewData);
       console.log('Review submitted:', response.data);
       window.location.reload();
     } catch (error) {
