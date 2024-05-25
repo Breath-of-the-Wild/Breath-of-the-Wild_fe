@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URLS } from '@/api/apiConfig';
 
 const ImageDisplay = ({ fileName }) => {
     const [imageSrc, setImageSrc] = useState(null);
