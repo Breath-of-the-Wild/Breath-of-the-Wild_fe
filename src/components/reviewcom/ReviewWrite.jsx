@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Typography } from '@material-tailwind/react';
+import { API_URLS } from '@/api/apiConfig';
 
 const Accordion = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,14 +13,10 @@ const Accordion = ({ title, children }) => {
   return (
     <div className="block mt-4 max-w-4xl mx-auto p-8 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
       <div className="cursor-pointer p-2 " onClick={toggleAccordion}>
-        <Typography
-        variant='h3'>
+        <Typography variant='h3'>
           {title}
         </Typography>
-        <Typography
-        variant='h6'
-        color='gray'
-        className='py-3'>
+        <Typography variant='h6' color='gray' className='py-3'>
           이 곳을 클릭해주세요.
         </Typography>
       </div>
@@ -32,23 +29,24 @@ const Accordion = ({ title, children }) => {
   );
 };
 
-const ReviewWrite = ( {contentId} ) => {
+const ReviewWrite = ({ contentId }) => {
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [formData, setFormData] = useState({
-    subject: '',
-    message: ''
-  });
   const username = localStorage.getItem("username");
   const emails = localStorage.getItem("id");
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageFile, setImageFile] = useState('');
-  const [createdBy, setCreatedBy] = useState(username);
-  const [email, setEmail] = useState(emails);
+  const [createdBy] = useState(username);
+  const [email] = useState(emails);
+
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > MAX_FILE_SIZE) {
+      alert('이미지 파일 크기는 5MB를 초과할 수 없습니다.');
+      return;
+    }
     setImage(file);
 
     const reader = new FileReader();
@@ -59,39 +57,51 @@ const ReviewWrite = ( {contentId} ) => {
   };
 
   const handleSubmit = async () => {
-    if (image) {
-      const formData = new FormData();
-      formData.append('file', image);
-  
-      try {
-        // 이미지 업로드 요청
-        const uploadResponse = await axios.post('http://localhost:8080/api/images/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-  
-        // 이미지 업로드 성공, 리뷰 데이터에 이미지 정보 포함
-        const savedImage = uploadResponse.data;
-        const reviewData = {
-          title,
-          content,
-          imageFile: savedImage.fileName, // 업로드된 이미지의 파일 경로를 사용
-          createdBy,
-          contentId,
-          email
-        };
-  
-        // 리뷰 데이터 전송
-        const response = await axios.post('http://localhost:8080/api/reviews/create', reviewData);
-        console.log('Review submitted:', response.data);
-        window.location.reload()
-      } catch (error) {
-        console.error('There was an error!', error);
-      }
-    } else {
-      console.error('No image selected');
-      // 이미지가 선택되지 않았다는 메시지 처리
+    if (!email) {
+      alert('로그인 후 리뷰를 작성할 수 있습니다.');
+      return;
+    }
+    if (!image) {
+      alert('이미지를 선택해주세요.');
+      return;
+    }
+    if (!title) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (!content) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', image);
+
+    try {
+      // 이미지 업로드 요청
+      const uploadResponse = await axios.post(API_URLS.IMAGE_UPLOAD, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      // 이미지 업로드 성공, 리뷰 데이터에 이미지 정보 포함
+      const savedImage = uploadResponse.data;
+      const reviewData = {
+        title,
+        content,
+        imageFile: savedImage.fileName, // 업로드된 이미지의 파일 경로를 사용
+        createdBy,
+        contentId,
+        email
+      };
+
+      // 리뷰 데이터 전송
+      const response = await axios.post(API_URLS.REVIEW_CREATE, reviewData);
+      console.log('Review submitted:', response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error('There was an error!', error);
     }
   };
 

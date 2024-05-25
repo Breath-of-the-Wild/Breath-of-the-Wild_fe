@@ -4,11 +4,12 @@ import { Typography } from '@material-tailwind/react';
 import FilterComponent from '../camp/FilterComponent';
 import './CampList.css';
 import CampCard from '../camp/CampCard';
+import { API_URLS } from '@/api/apiConfig';
 
 const CampList = ({ area }) => {
   const [campingData, setCampingData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(20);
+  const [itemsPerPage] = useState(21);
   const [selectedNature, setSelectedNature] = useState("");
   const [selectedInduty, setSelectedInduty] = useState("");
 
@@ -16,7 +17,7 @@ const CampList = ({ area }) => {
     const fetchData = async () => {
       try {
         console.log(area);
-        const response = await axios.get(`http://localhost:8080/api/camping/list/${area}`);
+        const response = await axios.get(`${API_URLS.CAMPING_GET}/${area}`);
         if (response.data) {
           setCampingData(response.data);
         } else {

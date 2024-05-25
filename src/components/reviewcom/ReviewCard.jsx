@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ImageDisplay from './ImageDIsplay';
 import ReviewModal from './ReviewModal';
+import ImageDisplay1 from './ImageDisplay1';
 
 const ReviewCard = ({review}) =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +14,7 @@ const ReviewCard = ({review}) =>{
     
     return(
         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 p-5">
-            <ImageDisplay fileName={review.imageFile} />
+            <ImageDisplay1 fileName={review.imageFile} />
             <div className='mt-3'>
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{review.title}</h5>
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">

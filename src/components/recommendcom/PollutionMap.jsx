@@ -19,7 +19,7 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
 
   const fetchRecommendRegions = async () => {
     try {
-      const resultResponse = await axios.post('http://localhost:8080/api/weather/abc1', {
+      const resultResponse = await axios.post('https://breathofthewildtest-348214722.ap-northeast-2.elb.amazonaws.com:8080/api/weather/abc1', {
         startDate: selectedStartDate,
         endDate: selectedEndDate,
       });

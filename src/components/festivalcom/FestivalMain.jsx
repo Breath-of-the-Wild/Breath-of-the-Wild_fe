@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Post from '../mapcom/Post';
+import { API_URLS } from '@/api/apiConfig';
 
 const BlogPosts = () => {
     // 상태 관리: 포스트, 전체 포스트, 페이지 번호, 로딩 상태, 검색 쿼리
@@ -14,7 +15,7 @@ const BlogPosts = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-              const response = await axios.get('http://localhost:8080/api/festivals/all');
+              const response = await axios.get(API_URLS.FESTIVAL_ALL);
     
             if (response.data) {
               setAllPosts(response.data);
@@ -52,7 +53,7 @@ const BlogPosts = () => {
 
     // 검색 결과를 필터링합니다.
     const handleSearch = async () => {
-      const apiUrl = `http://localhost:8080/api/festivals/all`;
+      const apiUrl = FESTIVAL_ALL;
   
       try {
           const response = await axios.get(apiUrl);
