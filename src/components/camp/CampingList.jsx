@@ -69,7 +69,7 @@ const CampingList = () => {
   };
 
   const handleSearch = async () => {
-    const apiUrl = `http://localhost:8080/api/camping/all`;
+    const apiUrl = `https://43.201.197.239:8080/api/camping/all`;
     
     try {
       const response = await axios.get(apiUrl);
