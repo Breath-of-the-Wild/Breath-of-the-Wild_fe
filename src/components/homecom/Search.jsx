@@ -6,8 +6,15 @@ import './Search.css';
 
 const Search = ({ onDateChange }) => {
   const today = new Date();
-  const [selectedStartDate, setSelectedStartDate] = useState(today);
-  const [selectedEndDate, setSelectedEndDate] = useState(today);
+
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const formattedToday = `${year}-${month}-${day}`;
+
+
+  const [selectedStartDate, setSelectedStartDate] = useState(formattedToday);
+  const [selectedEndDate, setSelectedEndDate] = useState(formattedToday);
 
   const handleDateChange = (date, label) => {
     if (label === "selectedStartDate") {

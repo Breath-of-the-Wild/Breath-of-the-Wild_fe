@@ -1,6 +1,6 @@
 // src/apiConfig.js
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:80';
 
 export const API_URLS = {
     INSTANCEAPI: `${BASE_URL}/api`,
