@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 import Top from '@/components/top/Top';
 import Post from '@/components/mapcom/Post';
+import { API_URLS } from '@/api/apiConfig';
 
 
 const FestivalSearchPage = () => {
@@ -28,7 +29,7 @@ const thirdPart = pathParts.length >= 3 ? decodeURIComponent(pathParts[2]) : nul
     useEffect(() => {
         const fetchfestivalings = async () => {
           try {
-            const response = await axios.get('http://localhost:8080/api/festivals/search', {
+            const response = await axios.get(API_URLS.FESTIVAL_SEARCH, {
               params: { searchType, searchValue },
             });
             setfestivalData(response.data);

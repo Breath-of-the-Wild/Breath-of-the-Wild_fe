@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CampCard from './CampCard';
+import { API_URLS } from '@/api/apiConfig';
 
 const LikedCamps = ({ memberEmail }) => {
     const [likedCamps, setLikedCamps] = useState([]);
-
     useEffect(() => {
         const fetchLikedCamps = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/camplikes/liked', {
+                const response = await axios.get(`${API_URLS.CAMP_LIKES_LIKED}/${email}`, {
                     params: { memberEmail }
                 });
                 setLikedCamps(response.data);

@@ -16,23 +16,16 @@ const OAuth2Callback = () => {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     };
 
-    const token = getCookieValue('token');
-    const refreshToken = getCookieValue('refreshToken');
+    const access_token = getCookieValue('access_token');
     const name = getCookieValue('name');
     const email = getCookieValue('email');
 
-    if (token && refreshToken && name && email) {
-      localStorage.setItem('bbs_access_token', token);
-      localStorage.setItem('refreshToken', refreshToken);
+    if (access_token && name && email) {
       localStorage.setItem('username', name);
       localStorage.setItem('id', email);
 
-      // 쿠키 삭제
-      deleteCookie('token');
-      deleteCookie('refreshToken');
-      deleteCookie('name');
       deleteCookie('email');
-
+      deleteCookie('name');
       navigate('/');
     } else {
       console.error('Missing token, refreshToken, name or email in cookies');

@@ -5,7 +5,6 @@ import React from 'react';
 const routes2 = [
 
     {
-        id: 31,
         path: "/Mypage",
         element: <Mypage />,
       },

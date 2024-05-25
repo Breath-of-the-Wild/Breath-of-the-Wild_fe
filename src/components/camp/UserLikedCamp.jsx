@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CampCard from './CampCard';
+import { API_URLS } from '@/api/apiConfig';
 
 const UserLikedCamps = () => {
     const email = localStorage.getItem("id");
   const [likedCamps, setLikedCamps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     const fetchLikedCamps = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/camplikes/user/${email}`);
+        const response = await axios.get(API_URLS.LIKEDCAMP_LIST);
         setLikedCamps(response.data);
       } catch (error) {
         setError(error);

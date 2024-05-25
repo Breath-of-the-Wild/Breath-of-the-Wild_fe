@@ -5,6 +5,7 @@ import WeatherIcon from '@/icon/WeatherIcons';
 import { WiHumidity } from "react-icons/wi";
 import { FaTemperatureHigh } from "react-icons/fa";
 import axios from 'axios';
+import { API_URLS } from '@/api/apiConfig';
 
 function WeatherTable({ selectedStartDate, selectedEndDate }) {
   const [weatherData, setWeatherData] = useState([]);
@@ -69,7 +70,7 @@ function WeatherTable({ selectedStartDate, selectedEndDate }) {
       console.log(formattedStartDate);
       console.log(formattedEndDate);
 
-      const response = await axios.post('http://3.34.167.72:8080/api/weather/list', {
+      const response = await axios.post(API_URLS.WEATHER_LIST, {
         startDate: formattedStartDate,
         endDate: formattedEndDate,
       });

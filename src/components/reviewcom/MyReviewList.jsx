@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReviewModal from './ReviewModal';
+import { API_URLS } from '@/api/apiConfig';
 
 const MyReviewList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +24,7 @@ const MyReviewList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/reviews/email/${emails}`);
+        const response = await axios.get(`${API_URLS.REVIEW_GET_EMAIL}/${emails}`);
         if (response.data) {
           setReviewData(response.data);
         } else {
@@ -41,7 +42,7 @@ const MyReviewList = () => {
     const confirmed = window.confirm('정말 삭제하시겠습니까?');
     if (confirmed) {
       try {
-        await axios.delete(`http://localhost:8080/api/reviews/delete/${reviewId}`);
+        await axios.delete(`${API_URLS.REVIEW_DELETE}/${reviewId}`);
         setReviewData(reviewData.filter(review => review.id !== reviewId));
         window.location.reload()
       } catch (error) {
