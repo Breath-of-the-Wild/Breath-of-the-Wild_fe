@@ -1,6 +1,6 @@
 // src/apiConfig.js
 
-const BASE_URL = 'http://localhost:80';
+const BASE_URL = 'https://breathofthewildtest-348214722.ap-northeast-2.elb.amazonaws.com:8080';
 
 export const API_URLS = {
     INSTANCEAPI: `${BASE_URL}/api`,
