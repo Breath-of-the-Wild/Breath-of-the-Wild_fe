@@ -5,7 +5,6 @@ on:
     branches:
       - feature4
       - feature5
-      - main
 
 jobs:
   deploy:
