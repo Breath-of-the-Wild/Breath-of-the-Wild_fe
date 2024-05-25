@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 import {
   Navbar as MTNavbar,
   MobileNav,
@@ -9,67 +11,49 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Cookies from 'js-cookie';
 
 export function Navbar({ brandName, routes, action }) {
-  const [username, setUsername] = useState(null);
-  const navigate = useNavigate();
-  const [openNav, setOpenNav] = useState(false);
 
-  useEffect(() => {
-    const token = Cookies.get("access_token");
-    if (token) {
-      try {
-        const currentTime = Math.floor(Date.now() / 1000);
+  const accessToken = localStorage.getItem("bbs_access_token");
+  const email = localStorage.getItem("id");
+  const username = localStorage.getItem("username");
+// 값이 null이면 로그인 버튼, 아니면 로그아웃 버튼 출력
+const buttonContent = accessToken ? (
+  <div className="flex gap-3">
+    <Typography
+    variant="h6"
+    className="my-auto">
+     {username} 님
+     </Typography>
+  <Link to="./logout">
+    <Button className="bg-green-500" size="sm" fullWidth>
+      로그아웃
+    </Button>
+  </Link>
+  <Link to="./mypage">
+    <Button className="bg-green-500"  size="sm" fullWidth>
+      마이페이지
+    </Button>
+  </Link>
+</div>
+) : (
+  <div className="flex gap-3">
+  <Link to="./Signin">
+    <Button className="bg-green-500"  size="sm" fullWidth>
+      로그인
+    </Button>
+  </Link>
+  <Link to="./SignUp">
+    <Button className="bg-green-500" size="sm" fullWidth>
+      회원가입
+    </Button>
+  </Link>
+  </div>
+);
 
-        if (token === null) {
-          // 토큰이 만료되었으면
-          alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
-          navigate("./Signin");
-        } else {
-          // 토큰이 유효하면
-          setUsername(localStorage.getItem("username"));
-        }
-      } catch (error) {
-        console.error("Invalid token", error);
-        navigate("./Signin");
-      }
-    }
-  }, [navigate]);
+  const [openNav, setOpenNav] = React.useState(false);
 
-  // 값이 null이면 로그인 버튼, 아니면 로그아웃 버튼 출력
-  const buttonContent = username ? (
-    <div className="flex gap-3">
-      <Typography variant="h6" className="my-auto">
-        {username} 님
-      </Typography>
-      <Link to="./logout">
-        <Button className="bg-green-500" size="sm" fullWidth>
-          로그아웃
-        </Button>
-      </Link>
-      <Link to="./mypage">
-        <Button className="bg-green-500" size="sm" fullWidth>
-          마이페이지
-        </Button>
-      </Link>
-    </div>
-  ) : (
-    <div className="flex gap-3">
-      <Link to="./Signin">
-        <Button className="bg-green-500" size="sm" fullWidth>
-          로그인
-        </Button>
-      </Link>
-      <Link to="./SignUp">
-        <Button className="bg-green-500" size="sm" fullWidth>
-          회원가입
-        </Button>
-      </Link>
-    </div>
-  );
-
-  useEffect(() => {
+  React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
@@ -79,7 +63,12 @@ export function Navbar({ brandName, routes, action }) {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {routes.map(({ name, path, icon, href, target }) => (
-        <Typography key={name} as="li" variant="medium" className="capitalize">
+        <Typography
+          key={name}
+          as="li"
+          variant="medium"
+          className="capitalize"
+        >
           {href ? (
             <a
               href={href}
@@ -115,19 +104,22 @@ export function Navbar({ brandName, routes, action }) {
       <div className="container mx-auto flex items-center justify-between text-white">
         <Link to="/">
           <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
-            <div className="flex items-center">
-              <img
-                src="/img/icon/logo1.png"
-                alt="로고 이미지"
-                className="w-auto h-32"
-              />
-              <span className="text-xl">{brandName}</span>
+          <div className="flex items-center">
+          <img src="/img/icon/logo1.png" alt="로고 이미지" className="w-auto h-32" />  
+          <span className="text-xl">
+            {brandName}</span>
             </div>
           </Typography>
         </Link>
-        <div className="hidden lg:block">{navList}</div>
+        <div className="hidden lg:block">{navList}
+  
+        </div>
         <div className="hidden gap-2 lg:flex">
-          <div>{buttonContent}</div>
+
+
+    <div>
+      {buttonContent}
+    </div>
           {React.cloneElement(action, {
             className: "hidden lg:inline-block",
           })}
@@ -151,7 +143,7 @@ export function Navbar({ brandName, routes, action }) {
         open={openNav}
       >
         <div className="container mx-auto">
-          {navList}
+        {navList}
           <a
             href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
             target="_blank"
@@ -174,8 +166,9 @@ Navbar.defaultProps = {
   brandName: "야생의 숨결",
   action: (
     <Link to="./Mypage">
-      <div></div>
-    </Link>
+<div>
+  </div>    
+   </Link>
   ),
 };
 

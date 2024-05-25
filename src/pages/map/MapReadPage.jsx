@@ -12,7 +12,6 @@ import ReviewWrite from '@/components/reviewcom/ReviewWrite';
 import ReviewList from '@/components/reviewcom/ReviewList';
 import CampLikeButton from '@/components/camp/CampLikeButton';
 import './CampLikeButton.css';
-import { API_URLS } from '@/api/apiConfig';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -27,7 +26,7 @@ const MapReadPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URLS.CAMPING_GET1}/${contentId}`);
+        const response = await axios.get(`http://localhost:8080/api/camping/${contentId}`);
         if (response.data) {
           setCampingData(response.data);
         } else {
@@ -41,6 +40,20 @@ const MapReadPage = () => {
     fetchData();
   }, [contentId]);
 
+  const handleLike = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/camplike', {
+        contentId: contentId,
+        memberEmail: email // Replace with actual member email
+      });
+
+      if (response.status === 200) {
+        setIsLiked(true);
+      }
+    } catch (error) {
+      console.error('Error saving like:', error);
+    }
+  };
 
   if (!campingData) {
     return <div>Loading...</div>;

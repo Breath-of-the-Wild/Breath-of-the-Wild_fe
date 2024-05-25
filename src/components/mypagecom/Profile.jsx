@@ -7,9 +7,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import Cookies from 'js-cookie';
 import { HttpHeadersContext } from '@/context/HttpHeadersProvider';
-import { API_URLS } from "@/api/apiConfig";
 
 const SignupForm = (props) => {
     const emails = localStorage.getItem("id");
@@ -18,34 +16,34 @@ const SignupForm = (props) => {
     const [pwd, setPwd] = useState("");
     const [checkPwd, setCheckPwd] = useState("");
     const [birth, setBirth] = useState("");
-
+  
     const email = props.email;
-
+  
     const navigate = useNavigate();
-
+  
     const changeName = (event) => {
         setName(event.target.value);
     }
-
+  
     const changePwd = (event) => {
         setPwd(event.target.value);
     }
-
+  
     const changeCheckPwd = (event) => {
         setCheckPwd(event.target.value);
     }
-
+  
     const changeBirth = (event) => {
         setBirth(event.target.value);
     }
-
+  
     useEffect(() => {
         setHeaders({
-            "Authorization": `Bearer ${Cookies.get("access_token")}`
+            "Authorization": `Bearer ${localStorage.getItem("bbs_access_token")}`
         });
         setName(props.name);
     }, [props.name]);
-
+  
     /* 비밀번호 유효성 검사 */
     const isPasswordValid = (password) => {
         const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -87,11 +85,11 @@ const SignupForm = (props) => {
             birth: birth,
         }
 
-        await axios.post(API_URLS.MEMBER_UPDATE, req, { headers })
+        await axios.post("http://localhost:8080/api/member/update", req, {headers: headers})
             .then((resp) => {
                 console.log("[MemberUpdate.js] update() success :D");
                 console.log(resp.data);
-                localStorage.setItem("username", req.username);
+
                 alert(resp.data.username + "님의 회원 정보를 수정했습니다");
                 navigate("/");
 
@@ -391,7 +389,7 @@ const SignupForm = (props) => {
                 </g>
               </g>
             </svg>
-
+            
           </div>
           <div className="w-full bg-cover relative max-w-md lg:max-w-2xl lg:w-7/12 ">
             <div className="flex flex-col items-center justify-center w-full h-full relative lg:pl-14 ">

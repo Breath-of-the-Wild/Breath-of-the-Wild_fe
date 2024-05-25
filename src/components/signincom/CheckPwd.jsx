@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { AuthContext } from "@/context/AuthProvider";
 import { HttpHeadersContext } from "@/context/HttpHeadersProvider";
 import MemberUpdate from "./MemberUpdate";
-import { API_URLS } from "@/api/apiConfig";
 
 function CheckPwd() {
     const { headers, setHeaders } = useContext(HttpHeadersContext);
@@ -38,7 +37,7 @@ function CheckPwd() {
         }
 
         try {
-            const resp = await axios.post(API_URLS.MEMBER_CHECKPWD, req, { headers: headers });
+            const resp = await axios.post("http://localhost:8080/api/member/checkPwd", req, { headers: headers });
             console.log("[MemberUpdate.js] checkPwd() success :D");
             console.log(resp.data);
             setEmail(resp.data.email);

@@ -10,12 +10,12 @@ function Logout() {
 	
 	const logout = () => {
 		
+		localStorage.removeItem("bbs_access_token");
+		localStorage.removeItem("refreshToken");
 		localStorage.removeItem("id");
 		localStorage.removeItem("username");
-		      // 쿠키 삭제
-
-
 		setAuth(null);
+		
 		navigate("/");
 	};
 

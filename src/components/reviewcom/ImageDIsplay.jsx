@@ -7,7 +7,7 @@ const ImageDisplay = ({ fileName }) => {
     useEffect(() => {
         const fetchImage = async () => {
             try {
-                const response = await axios.get(`${API_URLS.IMAGEUPLOAD}/${fileName}`, { responseType: 'arraybuffer' });
+                const response = await axios.get(`http://localhost:8080/api/images/${fileName}`, { responseType: 'arraybuffer' });
                 const base64 = btoa(
                     new Uint8Array(response.data).reduce(
                         (data, byte) => data + String.fromCharCode(byte),

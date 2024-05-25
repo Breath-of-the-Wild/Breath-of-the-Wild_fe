@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 import MapMarker from '@/components/mapcom/MapMarker';
-import { API_URLS } from "@/api/apiConfig";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -17,7 +16,7 @@ const FestivalDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URLS.FESTIVAL_GET}/${contentid}`);
+        const response = await axios.get(`http://localhost:8080/api/festivals/${contentid}`);
 
         if (response.data) {
           setfestivalData(response.data); // API 응답 전체를 저장

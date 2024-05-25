@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReviewCard from './ReviewCard';
-import { API_URLS } from '@/api/apiConfig';
 
 const ReviewBody =() => {
   const [reviewData, setreviewData] = useState([]);
@@ -11,7 +10,7 @@ const ReviewBody =() => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const response = await axios.get(API_URLS.REVIEW_ALL);
+          const response = await axios.get(`http://localhost:8080/api/reviews/all`);
         if (response.data) {
           setreviewData(response.data);
         } else {

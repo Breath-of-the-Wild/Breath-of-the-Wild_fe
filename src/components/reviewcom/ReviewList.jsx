@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ImageDisplay1 from './ImageDisplay.jsx';
-import { API_URLS } from '@/api/apiConfig.jsx';
 
 
 
@@ -13,7 +12,7 @@ const ReviewList = ({ contentId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URLS.REVIEW_GET_CONTENTID}/${contentId}`);
+        const response = await axios.get(`http://localhost:8080/api/reviews/content/${contentId}`);
         if (response.data) {
           setReviewData(response.data);
         } else {
