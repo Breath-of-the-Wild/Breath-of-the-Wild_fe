@@ -58,6 +58,8 @@ const SignInexam = () => {
         // Set refresh token to expire in 30 days
         Cookies.set('refresh_token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
 
+        localStorage.setItem("refresh_token", resp.data.refresh_token);
+        localStorage.setItem("access_token", resp.data.access_token);
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
 
