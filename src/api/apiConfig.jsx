@@ -1,0 +1,36 @@
+// src/apiConfig.js
+
+const BASE_URL = 'http://43.200.51.52:8080';
+
+export const API_URLS = {
+    INSTANCEAPI: `${BASE_URL}/api`,
+    MEMBER_LOGIN: `${BASE_URL}/api/camping/all`,
+    MEMBER_CREATE: `${BASE_URL}/api/member/register`,
+    MEMBER_UPDATE: `${BASE_URL}/api/member/update`,
+    MEMBER_CHECKID: `${BASE_URL}/api/member/checkId`,
+    MEMBER_CHECKPWD: `${BASE_URL}/api/member/checkPwd`,
+    GOOGLE_LOGIN: `${BASE_URL}/oauth2/authorization/google`,
+    KAKAO_LOGIN: `${BASE_URL}/oauth2/authorization/kakao`,
+    NAVER_LOGIN: `${BASE_URL}/oauth2/authorization/naver`,
+    CAMPING_ALL: `${BASE_URL}/api/camping/all`,
+    CAMPING_GET1: `${BASE_URL}/api/camping`,
+    CAMPING_GET: `${BASE_URL}/api/camping/list`,
+    CAMP_LIKES_LIKED: `${BASE_URL}/api/camplikes/liked`,
+    CAMP_LIKES_LIKE: `${BASE_URL}/api/camplikes/like`,
+    CAMP_LIKES_UNLIKE: `${BASE_URL}/api/camplikes/unlike`,
+    CAMP_SEARCH: `${BASE_URL}/api/camping/search`,
+    LIKEDCAMP_LIST: `${BASE_URL}/api/camplikes/user`,
+    FESTIVAL_ALL: `${BASE_URL}/api/festivals/all`,
+    FESTIVAL_GET: `${BASE_URL}/api/festivals`,
+    FESTIVAL_SEARCH: `${BASE_URL}/api/festivals/search`,
+    WEATHER_LIST: `${BASE_URL}/api/weather/list`,
+    WEATHER_GET: `${BASE_URL}/api/weather/abc1`,
+    IMAGEUPLOAD: `${BASE_URL}/api/images`,
+    IMAGE_UPLOAD: `${BASE_URL}/api/images/upload`,
+    REVIEW_CREATE: `${BASE_URL}/api/reviews/create`,
+    REVIEW_ALL: `${BASE_URL}/api/reviews/all`,
+    REVIEW_GET_EMAIL: `${BASE_URL}/api/reviews/email/`,
+    REVIEW_GET_CONTENTID: `${BASE_URL}/api/reviews/content`,
+    REVIEW_DELETE: `${BASE_URL}/api/reviews/delete`,
+    WEATHER_GET: `${BASE_URL}/api/weather/abc1`,
+};
