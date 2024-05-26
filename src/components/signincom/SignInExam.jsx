@@ -58,15 +58,14 @@ const SignInexam = () => {
   
       // 액세스 토큰과 리프레시 토큰의 만료 시간을 설정합니다.
       const accessTokenExpiry = new Date(new Date().getTime() + 60 * 60 * 1000); // 1시간 후
-      const refreshTokenExpiry = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000); // 30일 후
   
       // 로컬스토리지에 토큰과 만료 시간을 저장합니다.
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('accessTokenExpiry', accessTokenExpiry.toISOString());
   
       // 쿠키에 토큰과 만료 시간을 저장합니다.
-      Cookies.set('accessToken', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
-      Cookies.set('refreshToken', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
+      Cookies.set('access_Token', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
+      Cookies.set('refresh_Token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
 
   
       localStorage.setItem('id', email);
