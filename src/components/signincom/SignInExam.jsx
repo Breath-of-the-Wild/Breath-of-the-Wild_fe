@@ -54,13 +54,13 @@ const SignInexam = () => {
         const refreshToken = resp.data.refreshToken;
 
         // Set access token to expire in 1 hour
-        Cookies.set('access_token', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
+        Cookies.set('access_token', accessToken, { expires: 1 / 24, sameSite: 'Strict', path: '/' });
         // Set refresh token to expire in 30 days
-        Cookies.set('refresh_token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
+        Cookies.set('refresh_token', refreshToken, { expires: 30, sameSite: 'Strict', path: '/' });
 
         // Store tokens in localStorage
         localStorage.setItem("access_token", accessToken);
-        localStorage.setItem("refresh_token", refreshToken);
+
 
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);

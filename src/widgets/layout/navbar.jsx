@@ -15,7 +15,7 @@ export function Navbar({ brandName, routes, action }) {
   const [username, setUsername] = useState(null);
   const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
-  const token = (localStorage.getItem("accessToken"));
+  const token = (localStorage.getItem("access_token"));
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
 
