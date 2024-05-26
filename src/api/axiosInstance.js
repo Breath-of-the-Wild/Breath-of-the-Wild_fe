@@ -35,4 +35,21 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+// Function to refresh token periodically
+const refreshAuthToken = async () => {
+  try {
+    const response = await axiosInstance.post('/auth/refresh');
+    const { token } = response.data;
+
+    Cookies.set('access_token', token, { expires: 1, secure: true, sameSite: 'Strict' });
+
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } catch (error) {
+    console.log('Periodic token refresh failed', error);
+  }
+};
+
+// Refresh token every 10 minutes
+setInterval(refreshAuthToken, 10 * 60 * 1000);
+
 export default axiosInstance;

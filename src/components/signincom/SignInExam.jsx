@@ -50,12 +50,13 @@ const SignInexam = () => {
 
         alert(resp.data.username + "님, 성공적으로 로그인 되었습니다 🔐");
 
-        const token = resp.data.token;
-        const expiryDuration = resp.data.expiryDuration; // 백엔드에서 만료 시간 제공 시 사용
-        const expiryDate = new Date(new Date().getTime() + expiryDuration * 1000); // 만료 시간 설정
+        const accessToken = resp.data.access_token;
+        const refreshToken = resp.data.refresh_token;
 
-        // JWT 토큰과 만료 시간을 쿠키에 저장
-        // Cookies.set('access_token', token, { expires: expiryDate, secure: true, sameSite: 'Strict', path: '/' });
+        // Set access token to expire in 1 hour
+        Cookies.set('access_token', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
+        // Set refresh token to expire in 30 days
+        Cookies.set('refresh_token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
 
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
@@ -86,7 +87,6 @@ const SignInexam = () => {
   // const onKakaoLogin = () => {
   //   window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
   // }
-
   return (
     <div className="bg-white relative">
       <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-6xl xl:px-5 lg:flex-row">
