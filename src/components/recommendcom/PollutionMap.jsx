@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import geojson from '@/data/sido';
 import axios from 'axios';
 import RegionMapping from '@/data/RegionMapping';
+import { API_URLS } from '@/api/apiConfig';
 
 const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
   const [selectedArea, setSelectedArea] = useState(null);
@@ -19,7 +20,7 @@ const PollutionMap = ({ selectedStartDate, selectedEndDate }) => {
 
   const fetchRecommendRegions = async () => {
     try {
-      const resultResponse = await axios.post('https://43.201.197.239:8080/api/weather/abc1', {
+      const resultResponse = await axios.post(API_URLS.WEATHER_GET, {
         startDate: selectedStartDate,
         endDate: selectedEndDate,
       });
