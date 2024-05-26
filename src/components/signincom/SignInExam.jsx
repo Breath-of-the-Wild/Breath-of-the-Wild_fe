@@ -36,7 +36,6 @@ const SignInexam = () => {
   const toggleSaveId = (event) => {
     setSaveId(event.target.checked);
   }
-
   const login = async (id, pwd) => {
     const req = {
       email: id,
@@ -44,8 +43,8 @@ const SignInexam = () => {
     };
   
     try {
-      const resp = await axiosInstance.post(API_URLS.MEMBER_LOGIN, req);
-      console.log('[Login.js] login() success :D');
+      const resp = await axios.post(API_URLS.MEMBER_LOGIN, req);
+      console.log("[Login.js] login() success :D");
       console.log(resp.data);
   
       const { email, username, token: accessToken, refreshToken } = resp.data;
@@ -54,7 +53,7 @@ const SignInexam = () => {
         throw new Error('Tokens are missing in the response');
       }
   
-      alert(username + '님, 성공적으로 로그인 되었습니다 🔐');
+      alert(username + "님, 성공적으로 로그인 되었습니다 🔐");
   
       // 액세스 토큰과 리프레시 토큰의 만료 시간을 설정합니다.
       const accessTokenExpiry = new Date(new Date().getTime() + 60 * 60 * 1000); // 1시간 후
@@ -64,17 +63,19 @@ const SignInexam = () => {
       localStorage.setItem('accessTokenExpiry', accessTokenExpiry.toISOString());
   
       // 쿠키에 토큰과 만료 시간을 저장합니다.
-      Cookies.set('access_Token', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
-      Cookies.set('refresh_Token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
-
+      Cookies.set('accessToken', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
+      Cookies.set('refreshToken', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
   
       localStorage.setItem('id', email);
       localStorage.setItem('username', username);
   
+      setAuth(email); // 사용자 인증 정보(아이디 저장)
+      setHeaders({ "Authorization": `Bearer ${accessToken}` }); // 헤더 Authorization 필드 저장
+  
       if (saveId) {
-        localStorage.setItem('saved_id', id);
+        localStorage.setItem("saved_id", id);
       } else {
-        localStorage.removeItem('saved_id');
+        localStorage.removeItem("saved_id");
       }
   
       // 액세스 토큰 만료 시간에 맞춰 토큰을 제거하는 타이머를 설정합니다.
@@ -83,18 +84,23 @@ const SignInexam = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('accessTokenExpiry');
         Cookies.remove('accessToken');
-        Cookies.remove('accessTokenExpiry');
+        Cookies.remove('refreshToken');
         console.log('Access token expired and removed');
       }, expiresIn);
   
-      navigate('/');
+      window.location.href = "/";
     } catch (err) {
       console.log('[Login.js] login() error :<');
       console.log(err);
   
-      alert('⚠️ 잘못 입력하셨습니다.' + err.response.data);
+      if (err.response && err.response.data) {
+        alert('⚠️ 잘못 입력하셨습니다: ' + err.response.data.message);
+      } else {
+        alert('⚠️ 로그인 중 오류가 발생했습니다.');
+      }
     }
   };
+  
 
   const onNaverLogin = () => {
     window.location.href = API_URLS.NAVER_LOGIN
