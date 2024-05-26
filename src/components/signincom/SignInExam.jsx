@@ -42,44 +42,41 @@ const SignInexam = () => {
       email: id,
       password: pwd
     }
-
+  
     await axiosInstance.post("/member/login", req)
       .then((resp) => {
         console.log("[Login.js] login() success :D");
         console.log(resp.data);
-
+  
         alert(resp.data.username + "님, 성공적으로 로그인 되었습니다 🔐");
-
+  
         const accessToken = resp.data.token;
         const refreshToken = resp.data.refreshToken;
-
-        // Set access token to expire in 1 hour
-        Cookies.set('access_token', accessToken, { expires: 1 / 24, sameSite: 'Strict', path: '/' });
-        // Set refresh token to expire in 30 days
-        Cookies.set('refresh_token', refreshToken, { expires: 30, sameSite: 'Strict', path: '/' });
-
-        // Store tokens in localStorage
-        localStorage.setItem("access_token", accessToken);
-
-
+        const expiresIn = new Date(new Date().getTime() + 60 * 60 * 1000); // 1 hour expiry time, adjust as needed
+  
+        // Store tokens in cookies
+        Cookies.set('access_token', accessToken, { expires: expiresIn });
+        Cookies.set('refresh_token', refreshToken, { expires: 30 }); // assuming refresh token expires in 7 days, adjust as needed
+  
+        // Store additional info in localStorage
+        localStorage.setItem("token_expiry", expiresIn);
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
-
+  
         if (saveId) {
           localStorage.setItem("saved_id", id);
         } else {
           localStorage.removeItem("saved_id");
         }
-
+  
         navigate("/");
       }).catch((err) => {
         console.log("[Login.js] login() error :<");
         console.log(err);
-
-        alert("⚠️ " + err.response.data);
+  
+        alert("⚠️ " + err.response.data.message);
       });
   }
-
   const onNaverLogin = () => {
     window.location.href = API_URLS.NAVER_LOGIN
   }
