@@ -4,7 +4,7 @@ const BASE_URL = 'http://43.200.51.52:8080';
 
 export const API_URLS = {
     INSTANCEAPI: `${BASE_URL}/api`,
-    MEMBER_LOGIN: `${BASE_URL}/api/camping/all`,
+    MEMBER_LOGIN: `${BASE_URL}/api/member/login`,
     MEMBER_CREATE: `${BASE_URL}/api/member/register`,
     MEMBER_UPDATE: `${BASE_URL}/api/member/update`,
     MEMBER_CHECKID: `${BASE_URL}/api/member/checkId`,
