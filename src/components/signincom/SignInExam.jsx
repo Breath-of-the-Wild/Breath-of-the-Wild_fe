@@ -41,44 +41,50 @@ const SignInexam = () => {
     const req = {
       email: id,
       password: pwd
-    }
-
+    };
+  
     await axiosInstance.post("/member/login", req)
       .then((resp) => {
         console.log("[Login.js] login() success :D");
         console.log(resp.data);
-
+  
         alert(resp.data.username + "님, 성공적으로 로그인 되었습니다 🔐");
-
-        const accessToken = resp.data.access_token;
-        const refreshToken = resp.data.refresh_token;
-
-        // Set access token to expire in 1 hour
-        Cookies.set('access_token', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
-        // Set refresh token to expire in 30 days
-        Cookies.set('refresh_token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
-
-        // Store tokens in localStorage
-        localStorage.setItem("access_token", accessToken);
-        localStorage.setItem("refresh_token", refreshToken);
-
+  
+        // Access and refresh tokens
+        const accessToken = resp.data.accessToken;
+        const refreshToken = resp.data.refreshToken;
+        const accessTokenExpiry = new Date(new Date().getTime() + 60 * 60 * 1000); // 1 hour from now
+        const refreshTokenExpiry = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
+  
+        // Store tokens and expiry time in localStorage
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("accessTokenExpiry", accessTokenExpiry.toISOString());
+        localStorage.setItem("refreshTokenExpiry", refreshTokenExpiry.toISOString());
+  
+        // Store tokens and expiry time in cookies
+        Cookies.set('accessToken', accessToken, { expires: 1 / 24 }); // 1 hour
+        Cookies.set('refreshToken', refreshToken, { expires: 30 }); // 30 days
+        Cookies.set('accessTokenExpiry', accessTokenExpiry.toISOString(), { expires: 1 / 24 });
+        Cookies.set('refreshTokenExpiry', refreshTokenExpiry.toISOString(), { expires: 30 });
+  
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
-
+  
         if (saveId) {
           localStorage.setItem("saved_id", id);
         } else {
           localStorage.removeItem("saved_id");
         }
-
+  
         navigate("/");
       }).catch((err) => {
         console.log("[Login.js] login() error :<");
         console.log(err);
-
-        alert("⚠️ " + err.response.data);
+  
+        alert("⚠️ 잘못 입력하셨습니다." + err.response.data);
       });
-  }
+  };
 
   // const onNaverLogin = () => {
   //   window.location.href = "http://localhost:8080/oauth2/authorization/naver"
