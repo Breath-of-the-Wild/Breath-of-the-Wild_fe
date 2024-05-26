@@ -80,17 +80,17 @@ const SignInexam = () => {
       });
   }
 
-  // const onNaverLogin = () => {
-  //   window.location.href = "http://localhost:8080/oauth2/authorization/naver"
-  // }
+  const onNaverLogin = () => {
+    window.location.href = API_URLS.NAVER_LOGIN
+  }
 
   const onGoogleLogin = () => {
     window.location.href = API_URLS.GOOGLE_LOGIN
   }
 
-  // const onKakaoLogin = () => {
-  //   window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
-  // }
+  const onKakaoLogin = () => {
+    window.location.href = API_URLS.KAKAO_LOGIN
+  }
   return (
     <div className="bg-white relative">
       <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-6xl xl:px-5 lg:flex-row">
