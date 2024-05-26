@@ -44,7 +44,7 @@ const SignInexam = () => {
     };
   
     try {
-      const resp = await axiosInstance.post('/member/login', req);
+      const resp = await axiosInstance.post(API_URLS.MEMBER_LOGIN, req);
       console.log('[Login.js] login() success :D');
       console.log(resp.data);
   
