@@ -56,9 +56,9 @@ const SignInexam = () => {
   
         // Store tokens in cookies
         Cookies.set('access_token', accessToken, { expires: expiresIn });
-        Cookies.set('refresh_token', refreshToken, { expires: 30 }); // assuming refresh token expires in 7 days, adjust as needed
+        Cookies.set('refresh_token', refreshToken, { expires: 30 }); // 
   
-        // Store additional info in localStorage
+        localStorage.setItem("access_token", accessToken);
         localStorage.setItem("token_expiry", expiresIn);
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
