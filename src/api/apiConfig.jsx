@@ -29,7 +29,7 @@ export const API_URLS = {
     IMAGE_UPLOAD: `${BASE_URL}/api/images/upload`,
     REVIEW_CREATE: `${BASE_URL}/api/reviews/create`,
     REVIEW_ALL: `${BASE_URL}/api/reviews/all`,
-    REVIEW_GET_EMAIL: `${BASE_URL}/api/reviews/email/`,
+    REVIEW_GET_EMAIL: `${BASE_URL}/api/reviews/email`,
     REVIEW_GET_CONTENTID: `${BASE_URL}/api/reviews/content`,
     REVIEW_DELETE: `${BASE_URL}/api/reviews/delete`,
     WEATHER_GET: `${BASE_URL}/api/weather/abc1`,
