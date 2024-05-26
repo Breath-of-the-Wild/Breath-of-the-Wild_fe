@@ -11,10 +11,12 @@ const OAuth2RedirectHandler = () => {
     const fetchToken = async () => {
       const params = new URLSearchParams(location.search);
       const code = params.get('code');
+      const state = params.get('state'); // 네이버의 경우 state 파라미터도 처리해야 합니다.
 
       if (code) {
+        const provider = location.pathname.includes('kakao') ? 'kakao' : 'naver';
         try {
-          const response = await axios.get(`http://43.200.51.52:8080/api/oauth2/login/kakao?code=${code}`);
+          const response = await axios.get(`http://43.200.51.52:8080/api/oauth2/login/${provider}?code=${code}&state=${state}`);
           const { token, refreshToken, username } = response.data;
 
           // Store tokens in cookies
