@@ -58,8 +58,10 @@ const SignInexam = () => {
         // Set refresh token to expire in 30 days
         Cookies.set('refresh_token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
 
-        localStorage.setItem("refresh_token", resp.data.refresh_token);
-        localStorage.setItem("access_token", resp.data.access_token);
+        // Store tokens in localStorage
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("refresh_token", refreshToken);
+
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
 
@@ -188,12 +190,9 @@ const SignInexam = () => {
                     <Link to="/SignUp" className="text-gray-900 ml-1">회원가입</Link>
                   </Typography>
                 </div>
-
-
-
-                
               </div>
             </div>
+
             <svg viewBox="0 0 91 91" className="absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300 fill-current">
               <g stroke="none" strokeWidth="1" fillRule="evenodd">
                 <g fillRule="nonzero">
