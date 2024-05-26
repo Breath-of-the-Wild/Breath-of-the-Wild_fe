@@ -50,40 +50,27 @@ const SignInexam = () => {
 
         alert(resp.data.username + "님, 성공적으로 로그인 되었습니다 🔐");
 
-        const token = resp.data.token;
-        const expiryDuration = resp.data.expiryDuration; // 백엔드에서 만료 시간 제공 시 사용
-        const expiryDate = new Date(new Date().getTime() + expiryDuration * 1000); // 만료 시간 설정
+        const accessToken = resp.data.access_token;
+        const refreshToken = resp.data.refresh_token;
 
- 
-      // 액세스 토큰과 리프레시 토큰의 만료 시간을 설정합니다.
-      const accessTokenExpiry = new Date(new Date().getTime() + 60 * 60 * 1000); // 1시간 후
-  
+        // Set access token to expire in 1 hour
+        Cookies.set('access_token', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
+        // Set refresh token to expire in 30 days
+        Cookies.set('refresh_token', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
 
-      // 쿠키에 토큰과 만료 시간을 저장합니다.
-      Cookies.set('accessToken', accessToken, { expires: 1 / 24, secure: true, sameSite: 'Strict', path: '/' });
-      Cookies.set('refreshToken', refreshToken, { expires: 30, secure: true, sameSite: 'Strict', path: '/' });
-  
-            // 로컬스토리지에 토큰과 만료 시간을 저장합니다.
-            localStorage.setItem('accessToken', token);
-            localStorage.setItem('accessTokenExpiry', accessTokenExpiry.toISOString());
-      localStorage.setItem('id', email);
-      localStorage.setItem('username', username);
-  
-      setAuth(email); // 사용자 인증 정보(아이디 저장)
-      setHeaders({ "Authorization": `Bearer ${accessToken}` }); // 헤더 Authorization 필드 저장
+        // Store tokens in localStorage
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("refresh_token", refreshToken);
 
-  
+        localStorage.setItem("id", resp.data.email);
+        localStorage.setItem("username", resp.data.username);
 
-              // 액세스 토큰 만료 시간에 맞춰 토큰을 제거하는 타이머를 설정합니다.
-      const expiresIn = accessTokenExpiry.getTime() - new Date().getTime();
-      setTimeout(() => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('accessTokenExpiry');
-        Cookies.remove('accessToken');
-        Cookies.remove('refreshToken');
-        console.log('Access token expired and removed');
-      }, expiresIn);
-  
+        if (saveId) {
+          localStorage.setItem("saved_id", id);
+        } else {
+          localStorage.removeItem("saved_id");
+        }
+
         navigate("/");
       }).catch((err) => {
         console.log("[Login.js] login() error :<");
@@ -93,20 +80,17 @@ const SignInexam = () => {
       });
   }
 
-
-  
-
-  const onNaverLogin = () => {
-    window.location.href = API_URLS.NAVER_LOGIN
-  }
+  // const onNaverLogin = () => {
+  //   window.location.href = "http://localhost:8080/oauth2/authorization/naver"
+  // }
 
   const onGoogleLogin = () => {
     window.location.href = API_URLS.GOOGLE_LOGIN
   }
 
-  const onKakaoLogin = () => {
-    window.location.href = API_URLS.KAKAO_LOGIN
-  }
+  // const onKakaoLogin = () => {
+  //   window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
+  // }
   return (
     <div className="bg-white relative">
       <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-6xl xl:px-5 lg:flex-row">
@@ -181,18 +165,9 @@ const SignInexam = () => {
                     로그인
                   </Button>
                 </div>
-                <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onKakaoLogin}>
-    <img src='/img/icon/kakaologo1.png' style={{ width: '18px', height: '18px' }} />
-    <span>카카오 계정으로 로그인</span>
-  </Button>
-                <div className="mb-1 flex flex-col gap-4 relative">
 
-<div className="mb-1 flex flex-col gap-4">
-  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onNaverLogin}>
-    <img src='/img/icon/naverlogo.png' style={{ width: '18px', height: '18px' }} />
-    <span>네이버 계정으로 로그인</span>
-  </Button>
-  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onGoogleLogin}>
+                <div className="mb-1 flex flex-col gap-4 relative">
+                  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onGoogleLogin}>
                     <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_1156_824)">
                         <path d="M16.3442 8.18429C16.3442 7.64047 16.3001 7.09371 16.206 6.55872H8.66016V9.63937H12.9813C12.802 10.6329 12.2258 11.5119 11.3822 12.0704V14.0693H13.9602C15.4741 12.6759 16.3442 10.6182 16.3442 8.18429Z" fill="#4285F4" />
@@ -208,9 +183,6 @@ const SignInexam = () => {
                     </svg>
                     <span>구글 계정으로 로그인</span>
                   </Button>
-</div>
-
-
                 </div>
                 <div className="mb-1 flex flex-col gap-4 relative">
                   <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
