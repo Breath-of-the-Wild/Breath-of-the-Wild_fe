@@ -74,7 +74,7 @@ const SignInexam = () => {
         console.log("[Login.js] login() error :<");
         console.log(err);
   
-        alert("⚠️ " + err.response.data.message);
+        alert("⚠️ " + err.response.data.message + "잘못 입력하셨습니다.");
       });
   }
   const onNaverLogin = () => {
