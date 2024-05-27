@@ -23,17 +23,17 @@ export function Navbar({ brandName, routes, action }) {
 
   // 값이 null이면 로그인 버튼, 아니면 로그아웃 버튼 출력
   const buttonContent = token ? (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex items-center gap-3">
       <Typography variant="h6" className="my-auto">
         {username} 님
       </Typography>
-      <Link to="./logout" className="flex-1">
-        <Button className="bg-green-500" size="sm" fullWidth>
+      <Link to="./logout" className="flex-shrink-0">
+        <Button className="bg-green-500" size="sm" style={{ minWidth: '100px' }}>
           로그아웃
         </Button>
       </Link>
-      <Link to="./mypage" className="flex-1">
-        <Button className="bg-green-500" size="sm" fullWidth>
+      <Link to="./mypage" className="flex-shrink-0">
+        <Button className="bg-green-500" size="sm" style={{ minWidth: '100px' }}>
           마이페이지
         </Button>
       </Link>
