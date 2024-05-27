@@ -10,7 +10,7 @@ const Top = ({ title }) => {
 
   const topItem = TopData.find(item => item.id === title);
 
-  const regionNm = !topItem ? `${title}의 캠핑장 추천` : '';
+  const regionNm = !topItem ? `${title}지역 캠핑장 추천` : '';
 
   return (
     <div style={{ height: '50vh' }}>
