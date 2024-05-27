@@ -12,7 +12,7 @@ const UserLikedCamps = () => {
   useEffect(() => {
     const fetchLikedCamps = async () => {
       try {
-        const response = await axios.get(API_URLS.LIKEDCAMP_LIST);
+        const response = await axios.get(`${API_URLS.LIKEDCAMP_LIST}/${email}`);
         setLikedCamps(response.data);
       } catch (error) {
         setError(error);

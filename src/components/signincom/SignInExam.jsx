@@ -42,51 +42,52 @@ const SignInexam = () => {
       email: id,
       password: pwd
     }
-
+  
     await axiosInstance.post("/member/login", req)
       .then((resp) => {
         console.log("[Login.js] login() success :D");
         console.log(resp.data);
-
+  
         alert(resp.data.username + "님, 성공적으로 로그인 되었습니다 🔐");
-
-        const token = resp.data.token;
-        const expiryDuration = resp.data.expiryDuration; // 백엔드에서 만료 시간 제공 시 사용
-        const expiryDate = new Date(new Date().getTime() + expiryDuration * 1000); // 만료 시간 설정
-
-        // JWT 토큰과 만료 시간을 쿠키에 저장
-        // Cookies.set('access_token', token, { expires: expiryDate, secure: true, sameSite: 'Strict', path: '/' });
-
+  
+        const accessToken = resp.data.token;
+        const refreshToken = resp.data.refreshToken;
+        const expiresIn = new Date(new Date().getTime() + 60 * 60 * 1000); // 1 hour expiry time, adjust as needed
+  
+        // Store tokens in cookies
+        Cookies.set('access_token', accessToken, { expires: expiresIn });
+        Cookies.set('refresh_token', refreshToken, { expires: 30 }); // 
+  
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("token_expiry", expiresIn);
         localStorage.setItem("id", resp.data.email);
         localStorage.setItem("username", resp.data.username);
-
+  
         if (saveId) {
           localStorage.setItem("saved_id", id);
         } else {
           localStorage.removeItem("saved_id");
         }
-
+  
         navigate("/");
       }).catch((err) => {
         console.log("[Login.js] login() error :<");
         console.log(err);
-
-        alert("⚠️ " + err.response.data);
+  
+        alert("⚠️ " + err.response.data.message + "잘못 입력하셨습니다.");
       });
   }
-
-  // const onNaverLogin = () => {
-  //   window.location.href = "http://localhost:8080/oauth2/authorization/naver"
-  // }
+  const onNaverLogin = () => {
+    window.location.href = API_URLS.NAVER_LOGIN
+  }
 
   const onGoogleLogin = () => {
     window.location.href = API_URLS.GOOGLE_LOGIN
   }
 
-  // const onKakaoLogin = () => {
-  //   window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
-  // }
-
+  const onKakaoLogin = () => {
+    window.location.href = API_URLS.KAKAO_LOGIN
+  }
   return (
     <div className="bg-white relative">
       <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-6xl xl:px-5 lg:flex-row">
@@ -155,15 +156,24 @@ const SignInexam = () => {
                   </Typography>
                 </div>
 
-                {/* 버튼 */}
-                <div className="mb-1 flex flex-col gap-4 relative">
+                       {/* 버튼 */}
+                       <div className="mb-1 flex flex-col gap-4 relative">
                   <Button size="lg" className="mt-0" onClick={login} fullWidth>
                     로그인
                   </Button>
                 </div>
-
+                <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onKakaoLogin}>
+    <img src='/img/icon/kakaologo1.png' style={{ width: '18px', height: '18px' }} />
+    <span>카카오 계정으로 로그인</span>
+  </Button>
                 <div className="mb-1 flex flex-col gap-4 relative">
-                  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onGoogleLogin}>
+
+<div className="mb-1 flex flex-col gap-4">
+  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onNaverLogin}>
+    <img src='/img/icon/naverlogo.png' style={{ width: '18px', height: '18px' }} />
+    <span>네이버 계정으로 로그인</span>
+  </Button>
+  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onGoogleLogin}>
                     <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_1156_824)">
                         <path d="M16.3442 8.18429C16.3442 7.64047 16.3001 7.09371 16.206 6.55872H8.66016V9.63937H12.9813C12.802 10.6329 12.2258 11.5119 11.3822 12.0704V14.0693H13.9602C15.4741 12.6759 16.3442 10.6182 16.3442 8.18429Z" fill="#4285F4" />
@@ -179,6 +189,9 @@ const SignInexam = () => {
                     </svg>
                     <span>구글 계정으로 로그인</span>
                   </Button>
+</div>
+
+
                 </div>
                 <div className="mb-1 flex flex-col gap-4 relative">
                   <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
@@ -186,12 +199,9 @@ const SignInexam = () => {
                     <Link to="/SignUp" className="text-gray-900 ml-1">회원가입</Link>
                   </Typography>
                 </div>
-
-
-
-                
               </div>
             </div>
+
             <svg viewBox="0 0 91 91" className="absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300 fill-current">
               <g stroke="none" strokeWidth="1" fillRule="evenodd">
                 <g fillRule="nonzero">

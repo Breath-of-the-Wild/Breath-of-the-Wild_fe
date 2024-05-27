@@ -15,41 +15,25 @@ export function Navbar({ brandName, routes, action }) {
   const [username, setUsername] = useState(null);
   const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
-  const token = Cookies.get("access_token");
+  const token = (localStorage.getItem("access_token"));
   useEffect(() => {
+    setUsername(localStorage.getItem("username"));
 
-    if (token) {
-      try {
-        const currentTime = Math.floor(Date.now() / 1000);
-
-        if (token === null) {
-          // 토큰이 만료되었으면
-          alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
-          navigate("./Signin");
-        } else {
-          // 토큰이 유효하면
-          setUsername(localStorage.getItem("username"));
-        }
-      } catch (error) {
-        console.error("Invalid token", error);
-        navigate("./Signin");
-      }
-    }
   }, [navigate]);
 
   // 값이 null이면 로그인 버튼, 아니면 로그아웃 버튼 출력
   const buttonContent = token ? (
-    <div className="flex gap-3">
+    <div className="flex items-center gap-3">
       <Typography variant="h6" className="my-auto">
         {username} 님
       </Typography>
-      <Link to="./logout">
-        <Button className="bg-green-500" size="sm" fullWidth>
+      <Link to="./logout" className="flex-shrink-0">
+        <Button className="bg-green-500" size="sm" style={{ minWidth: '100px' }}>
           로그아웃
         </Button>
       </Link>
-      <Link to="./mypage">
-        <Button className="bg-green-500" size="sm" fullWidth>
+      <Link to="./mypage" className="flex-shrink-0">
+        <Button className="bg-green-500" size="sm" style={{ minWidth: '100px' }}>
           마이페이지
         </Button>
       </Link>
