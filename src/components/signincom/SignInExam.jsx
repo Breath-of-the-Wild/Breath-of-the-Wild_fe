@@ -162,17 +162,11 @@ const SignInexam = () => {
                     로그인
                   </Button>
                 </div>
-                <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onKakaoLogin}>
-    <img src='/img/icon/kakaologo1.png' style={{ width: '18px', height: '18px' }} />
-    <span>카카오 계정으로 로그인</span>
-  </Button>
+
                 <div className="mb-1 flex flex-col gap-4 relative">
 
 <div className="mb-1 flex flex-col gap-4">
-  <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onNaverLogin}>
-    <img src='/img/icon/naverlogo.png' style={{ width: '18px', height: '18px' }} />
-    <span>네이버 계정으로 로그인</span>
-  </Button>
+
   <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={onGoogleLogin}>
                     <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_1156_824)">
