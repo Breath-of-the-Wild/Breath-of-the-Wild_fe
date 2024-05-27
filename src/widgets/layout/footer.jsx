@@ -16,25 +16,13 @@ export function Footer({ title, description, socials, menus, copyright }) {
             <Typography className="font-normal text-blue-gray-500 lg:w-2/5">
               {description}
             </Typography>
-            <div className="mx-auto mt-6 mb-8 flex justify-center gap-2 md:mb-0 lg:justify-start">
-              {socials.map(({ color, name, path }) => (
-                <a
-                  key={name}
-                  href={path}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IconButton color="white" className="rounded-full shadow-none bg-transparent">
-                    <Typography color={color}>
-                      <i className={`fa-brands fa-${name}`} />
-                    </Typography>
-                  </IconButton>
-                </a>
-              ))}
-            </div>
+            <br />
+            <Typography variant="h6" className="font-normal text-blue-gray-500">
+              {socials}
+            </Typography>
           </div>
           <div className="mx-auto mt-12 grid w-max grid-cols-2 gap-24 lg:mt-0">
-            {menus.map(({ name, items }) => (
+            {menus.map(({ name, items, links }) => (
               <div key={name}>
                 <Typography
                   variant="small"
@@ -84,71 +72,32 @@ Footer.defaultProps = {
   title: "출처",
   description:
     "중앙정보인재개발원",
-  socials: [
-    {
-      color: "gray",
-      name: "twitter",
-      path: "https://www.twitter.com/creativetim",
-    },
-    {
-      color: "gray",
-      name: "youtube",
-      path: "https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w",
-    },
-    {
-      color: "gray",
-      name: "instagram",
-      path: "https://www.instagram.com/creativetimofficial/",
-    },
-    {
-      color: "black",
-      name: "github",
-      path: "https://github.com/creativetimofficial/material-tailwind",
-    },
-  ],
+  socials:
+  "서울 강남구 테헤란로 7길 7(역삼동 에스코빌딩 6층)",
   menus: [
-    {
-      name: "유용한 링크",
-      items: [
-        { name: "문의사항", path: "https://www.creative-tim.com/presentation" },
-        { name: "블로그", path: "https://www.creative-tim.com/blog" },
-        {
-          name: "깃 주소",
-          path: "https://www.github.com/creativetimofficial/material-tailwind?ref=mtk",
-        },
-        {
-          name: "다양한 제품",
-          path: "https://www.creative-tim.com/templates/free?ref=mtk",
-        },
-      ],
-    },
     {
       name: "기타 링크",
       items: [
         {
-          name: "라이센스",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/LICENSE.md?ref=mtk",
+          name: "깃",
+          path: "https://github.com/orgs/Breath-of-the-Wild/repositories",
         },
         {
-          name: "기부",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/CONTRIBUTING.md?ref=mtk",
+          name: "유튜브",
+          path: "https://www.youtube.com/watch?v=sgIYoFvaeM0",
         },
         {
-          name: "로고 변경",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/CHANGELOG.md?ref=mtk",
-        },
-        {
-          name: "문의 하기",
-          path: "https://creative-tim.com/contact-us?ref=mtk",
+          name: "노션",
+          path: "https://www.notion.so/620ce2e880ec4d6f871ee51ad7a438ce",
         },
       ],
     },
   ],
   copyright: (
     <>
-      Copyright © {year} 젤다의 전설{" "}
+      Copyright © {year} 중앙의 전설{" "}
       <a
-        href="https://www.creative-tim.com?ref=mtk"
+        href="#"
         target="_blank"
         className="text-blue-gray-500 transition-colors hover:text-blue-500"
       >
