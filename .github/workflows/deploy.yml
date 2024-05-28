@@ -23,6 +23,8 @@ jobs:
         run: npm install
 
       - name: Build the React App
+        env:
+          REACT_APP_KAKAO_API_KEY: ${{ secrets.KAKAO_API_KEY }}
         run: npm run build
 
       - name: List Dist Directory Contents

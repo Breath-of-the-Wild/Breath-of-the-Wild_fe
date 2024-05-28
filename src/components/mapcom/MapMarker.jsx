@@ -7,7 +7,8 @@ const MapMarker = ({ latitude, longitude}) => {
     // 지도 생성
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=c87b1b56363f99ac8f96e46e2cefe04c`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_API_KEY}`;
+
     document.head.appendChild(script);
     
     script.onload = () => {
