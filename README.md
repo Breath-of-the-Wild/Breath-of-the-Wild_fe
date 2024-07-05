@@ -5,8 +5,9 @@
 
 <br>
 
-### **🏠 _배포 주소_** [http://wonjungbucket.s3-website.ap-northeast-2.amazonaws.com/home]
-
+### **🏠 _배포 주소_** [https://github.com/Breath-of-the-Wild]
+### **🏠 _Youtube 주소_** [https://www.youtube.com/watch?v=sgIYoFvaeM0]
+<br>
 <br>
 <br>
 
@@ -36,7 +37,7 @@
 
 ## 🗺 날씨 기반 캠핑장 추천
 
-> - 날씨 기반으로 인한 공공 데이터에 중
+> - 날씨 기반으로 인한 원하는 날짜 필터링을 통해 캠핑장 추천 기능을 제공합니다.
 
 > - 날씨 기반으로 인한 공공 데이터에 존재하는 캠핑장 정보 확인이 가능합니다.
 
@@ -50,65 +51,60 @@
 
 </br>
 
-## **⚽ API**
+## **⚽ 프로젝트 개요**
 
-- 캠핑장 / 날씨API 사용
-- 데이터 api사용 / Tmap api 이용
-- openWether API request scheduling
-- 지역별 및 주제별 캠핑장 조회시 총 캠핑장 갯수 조회 / 성능 개선
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/3bc2336f-c2f1-4c0b-909a-b8f9646a0171)
+
+## **🛠️ 개발 환경**
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/15663f9f-53cf-4ee0-a9a4-29b9a3a439ef)
 
 ## 👥 팀 구성
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/81801f35-21c0-491f-8244-cfd128d9761f)
+## **👬 기능 명세서**
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/29534387-46b4-462e-b29c-019ea0010493)
 
-- 프론트엔드 개발자: 2명 (홍승연, 김원중)
-- 백엔드 개발자: 3명 (곽양신, 조현진, 박민경)
+## **🗺 WBS**
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/4431f74a-7c3c-4c92-8fa9-d97fd0b632b5)
 
-## 🛠️ 사용 기술
+## **🏕 화면 설계**
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/b1a60c32-8281-4c55-be09-c05f6a8fe8d7)
 
-- Front-end : React
-- Back-end : Spring, Java, MySQL
-- Tools : Git
-- Collaboration : GitHub, Notion,
+## **🖥️ ERD**
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/702b79db-d617-41dc-a7b5-d10baa9c5f7e)
+ 
 
-## 🗂 깃 명령어
+## **🚀 수행 결과**
 
-git clone https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_fe
+#### -메인 페이지-
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/d12d9229-b79f-4074-aa65-22ef1cf1bc34)
 
-git init
+#### -검색 페이지-
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/fe3abdd6-b7ab-4e03-aac8-371067a063ec)
 
-git remote add origin https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_fe
+#### -로그인-
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/bdc9a80b-ea62-4a8b-a7d1-486989427430)
 
-rm -rf .git/
-
-git add .
-
-git commit -m "테스트"
-
-git branch main
-
-git branch feature1 - 곽양신
-
-git branch feature2 - 박민경
-
-git branch feature3 - 홍승연
-
-git branch feature4 - 김원중
-
-git branch feature5 - 조현진
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/85cda588-f528-4f40-8de2-874808fa8660)
 
 
 
-git push origin main
-
-git push -f origin main
-
-git pull origin main
-
-git pull --allow-unrelated-histories origin main
+#### -소셜 로그인-
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/871bafca-fd62-4274-b092-93f7ffb451ae)
 
 
-git remote -v
+#### -날씨 기반 캠핑장 추천-
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/73c121b9-33e7-40c8-ad61-6b26002aee7f)
 
-git remote rm origin
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/127b4c8e-6eb6-42c9-9ef7-33d48645f969)
+
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/d2bdd33d-8c71-44ae-a1da-401a605f5a79)
+
+#### -배치&스케줄러-
+
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/e8df0128-f35b-4747-b53f-fe3f5ea29f47)
 
 
-git clone -b feature4 --single-branch https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_fe
+![image](https://github.com/Breath-of-the-Wild/Breath-of-the-Wild_be/assets/78581994/bc1464a1-54de-4e45-847e-c1d5880bb6d2)
+
+
+
